@@ -1,0 +1,97 @@
+/* ===== Inventory mobile enhancements v4 ===== */
+
+/* Prevent pills & actions from pushing outside card */
+.inv-page .inv-card{
+  overflow: hidden;
+}
+
+/* Make top toolbar wrap nicely */
+.inv-page .inv-list-head{
+  flex-wrap: wrap;
+}
+
+/* --- Category pills --- */
+.inv-page .cat-pills{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  margin:10px 0 6px;
+  flex-wrap: nowrap;             /* keep single row */
+  overflow-x: auto;              /* scroll on mobile */
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 6px 2px;              /* breathing room for scroll */
+  scrollbar-width: thin;         /* Firefox */
+}
+.inv-page .cat-pills::-webkit-scrollbar{height:6px}
+.inv-page .cat-pills::-webkit-scrollbar-thumb{background:#243141;border-radius:8px}
+.inv-page .cat-pills::-webkit-scrollbar-track{background:transparent}
+
+/* keep pills inline, not full width */
+.inv-page .cat-pills .cat-pill{
+  width: auto !important;
+  flex: 0 0 auto;                /* do not shrink */
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 12px;
+  border-radius:999px;
+  border:1px solid #334155;
+  background:#1e293b;
+  color:#e5e7eb;
+  white-space:nowrap;
+  user-select:none;
+}
+.inv-page .cat-pills .cat-pill .count{
+  display:inline-block;
+  background: rgba(255,255,255,.12);
+  border-radius:12px;
+  padding: 1px 6px;
+  font-size:12px;
+}
+.inv-page .cat-pills .cat-pill:hover{ background:#0f172a; }
+.inv-page .cat-pills .cat-pill.active{
+  background:#06b6d4; border-color:#06b6d4; color:#0b132a; font-weight:700;
+}
+
+/* Buttons area (filters, export) behaves on narrow screens */
+.inv-page .inv-actions{
+  flex-wrap: wrap;
+}
+.inv-page .inv-actions .inv-btn{
+  flex: 0 0 auto;
+}
+
+/* Table wrapper scrolls horizontally on small screens */
+.inv-page .inv-table-wrap{
+  overflow-x:auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Compact table on narrow screens */
+@media (max-width: 780px){
+  .inv-page .container{ padding: 16px; }
+  .inv-page .inv-card{ padding:14px; }
+  .inv-page .inv-table th,
+  .inv-page .inv-table td{ padding:8px 10px; }
+
+  /* shrink action buttons */
+  .inv-page .inv-btn.inv-sm{ padding:6px 8px; font-size:12px; }
+
+  /* reduce pill size a bit */
+  .inv-page .cat-pills .cat-pill{ padding:5px 10px; font-size:13px; }
+  .inv-page .cat-pills{ margin-top:8px; }
+
+  /* allow second row for list head content */
+  .inv-page .inv-list-head{ gap:8px; }
+}
+
+/* Very small phones */
+@media (max-width: 420px){
+  .inv-page .cat-pills{ gap:6px; padding-bottom:8px; }
+  .inv-page .cat-pills .cat-pill{ padding:5px 9px; font-size:12px; }
+  .inv-page .inv-actions select{ min-width: 160px; }
+  .inv-page .inv-actions .inv-btn{ padding:8px 10px; font-size:12px; }
+  /* Slightly reduce table text to keep more columns visible */
+  .inv-page .inv-table{ font-size: 13px; }
+}

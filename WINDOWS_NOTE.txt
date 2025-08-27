@@ -1,0 +1,6 @@
+
+If you see "unable to open database file" on Windows (XAMPP):
+1) Create folder: C:\xampp\htdocs\repairhub\data and C:\xampp\htdocs\repairhub\uploads
+2) Ensure Apache has write permission to both.
+   Quick way: right-click folder > Properties > Security > Edit > allow Modify for Users.
+3) Refresh /admin/login.php again.
