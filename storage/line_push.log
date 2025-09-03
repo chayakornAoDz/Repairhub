@@ -1,0 +1,53 @@
+[2025-08-28T15:55:35+07:00] SKIP push: missing token/target
+[2025-08-28T16:08:22+07:00] SKIP push: missing token/target
+[2025-08-28T16:16:53+07:00] [submit] compose -> 🆕 มีงานใหม่เข้าระบบ | Ticket: RH-20250828-0004 | ผู้แจ้ง: ทดสอบไลน์ | ประเภท: อื่น ๆ | สำคัญ: วิกฤต | แผนก: ทดสอบไลน์ | สถานที่: ทดสอบไลน์ | เวลา: 28/08 16:16
+[2025-08-28T16:16:53+07:00] SKIP push: missing token/target
+[2025-08-28T16:16:53+07:00] [submit] push FAILED -> try LINE Notify
+[2025-08-28T16:20:38+07:00] [submit] compose -> 🆕 มีงานใหม่เข้าระบบ | Ticket: RH-20250828-0005 | ผู้แจ้ง: ทดสอบไลน์ | ประเภท: กล้อง CCTV | สำคัญ: วิกฤต | แผนก: ทดสอบไลน์ | สถานที่: ทดสอบไลน์ | เวลา: 28/08 16:20
+[2025-08-28T16:20:38+07:00] [submit] settings -> tokenLen=0 to=
+[2025-08-28T16:20:38+07:00] SKIP push: missing token/target
+[2025-08-28T16:20:38+07:00] [submit] push FAILED -> try LINE Notify
+[2025-08-28T16:35:03+07:00] OK HTTP:200 | RES:{"sentMessages":[{"id":"576368509576282380","quoteToken":"T8o0whXYobcrsty_rBplE4embAu3ExT7gZkq_az40EhCKDWkZU1Ui7fo3_4xuCUVWGfT7RLIjvuRRCl9hhWFpTaQbaa3HTuYSuutApanMzJpO_dbkL-lglcyevrOzPifDraeNgj1T-yGKioHImxMIw"}]}
+[2025-08-28T16:35:26+07:00] [submit] compose -> 🆕 มีงานใหม่เข้าระบบ | Ticket: RH-20250828-0006 | ผู้แจ้ง: ทดสอบไลน์ ทดสอบไลน์ | ประเภท: ไฟฟ้า | สำคัญ: เร่งด่วน | แผนก: ทดสอบไลน์ ทดสอบไลน์ | สถานที่: ทดสอบไลน์ ทดสอบไลน์ | เวลา: 28/08 16:35
+[2025-08-28T16:35:26+07:00] [submit] settings -> tokenLen=172 to=U406d1975635d6fa945565a97f248fa1b
+[2025-08-28T16:35:26+07:00] OK HTTP:200 | RES:{"sentMessages":[{"id":"576368548683710985","quoteToken":"P4_SnV4ArLhp4TXaa6MzpekMTUZ8XJyAcDSHlFMkMGgtFI5k8pQgFeYnRR-p8f-rjbqIjPh4tZ5D-xuUMhScoCLbU0X0vDlcP7dNGCQMyYmWR3S2HdlaHc_KO2SF48a6NvZhC_uYhvNf8W5-9TzCAQ"}]}
+[2025-08-28T16:35:26+07:00] [submit] push OK
+[2025-08-29T09:38:50+07:00] OK HTTP:200 | RES:{"sentMessages":[{"id":"576471563693195946","quoteToken":"ARIowHSNSEvj2qH_e85G1Vo_qhyXFpQiJiA0YCu92CoAnyezin3CYNuk8sfJC3EZEjCvsnnAG9P_dNgxX5oNpTxDVI1rsjOhpNQwG8O3L7zYDZXDT7_i8d_GQlU7SMEOBdDruAl4wMaoJIeVrjoNCg"}]}
+[2025-08-29T09:40:01+07:00] [submit] compose -> 🆕 มีงานใหม่เข้าระบบ | Ticket: RH-20250829-0001 | ผู้แจ้ง: MD | ประเภท: คอมพิวเตอร์ | สำคัญ: ปกติ | แผนก: MD | สถานที่: ห้อง MD | เวลา: 29/08 09:40
+[2025-08-29T09:40:01+07:00] [submit] settings -> tokenLen=172 to=U406d1975635d6fa945565a97f248fa1b
+[2025-08-29T09:40:01+07:00] OK HTTP:200 | RES:{"sentMessages":[{"id":"576471682827681971","quoteToken":"somMfh61UDApHaNlC45T2AvzkxM0X4g8SwHuh-Jv1e5H_3ijiOajS8hQ_e8YHlHhT5TIocYPfUuN5mbxHzEgySFAN2IV3b88jGnG2nCPJTI2NscMI5l9RL8wOZW-9PDTV3F046vh_6sJOgf4UBCo5Q"}]}
+[2025-08-29T09:40:01+07:00] [submit] push OK
+[2025-08-29T11:39:09+07:00] [submit] compose -> 🆕 มีงานใหม่เข้าระบบ | Ticket: RH-20250829-0002 | ผู้แจ้ง: It | ประเภท: อื่น ๆ | สำคัญ: ปกติ | แผนก: it | สถานที่: It | เวลา: 29/08 11:39
+[2025-08-29T11:39:09+07:00] [submit] settings -> tokenLen=172 to=U406d1975635d6fa945565a97f248fa1b
+[2025-08-29T11:39:09+07:00] OK HTTP:200 | RES:{"sentMessages":[{"id":"576483675936653828","quoteToken":"paNtH4C40ktO5KDIHfOnVP5fcKT-vSqhdRg0-3YsZBGn8TlFarfZHZ4qsDBZYtndbEdNk-pTuK09UGGqT97zod32TVVI2eyY8L19LRVVdHpjHVjHz_gmPCWC1OzURDYI5qMfeqjULgKyNckHicy8BQ"}]}
+[2025-08-29T11:39:09+07:00] [submit] push OK
+[2025-08-29T17:15:30+07:00] [submit] compose -> 🆕 มีงานใหม่เข้าระบบ | Ticket: RH-20250829-0003 | ผู้แจ้ง: ทดสอบ | ประเภท: อินเทอร์เน็ต | สำคัญ: วิกฤต | แผนก: ทดสอบ | สถานที่: ทดสอบ | เวลา: 29/08 17:15
+[2025-08-29T17:15:30+07:00] [submit] settings -> tokenLen=172 to=U406d1975635d6fa945565a97f248fa1b
+[2025-08-29T17:15:30+07:00] OK HTTP:200 | RES:{"sentMessages":[{"id":"576517533432283311","quoteToken":"PckxTvd1NGchwjR4YcUSyez_GRJu0M7YatJni7BhGX79ZKUr0CD8npkHSkOI_hHuYMROtLdP3NzJCvgX83YmqX9_PxH7JmyNyf6hVhFuS_C3gRV6g5qRMDE_cAOVLk1xmo4iwP1z6WImEfa2oz9OAA"}]}
+[2025-08-29T17:15:30+07:00] [submit] push OK
+[2025-09-02T14:11:33+07:00] [submit] compose -> 🆕 มีงานใหม่เข้าระบบ | Ticket: RH-20250902-0001 | ผู้แจ้ง: - | ประเภท: - | สำคัญ: ปกติ | เวลา: 02/09 14:11
+[2025-09-02T14:11:33+07:00] [submit] settings -> tokenLen=172 to=U406d1975635d6fa945565a97f248fa1b
+[2025-09-02T14:11:33+07:00] OK HTTP:200 | RES:{"sentMessages":[{"id":"577078834470846622","quoteToken":"YnO1JbGv7LkfjyVJQ7HJiALgXnfy5kejSeh3k-hJbIlQOrhzatcLU_o_yre2zL_vrwZwzdHSAuoTzCCeQcbgOnlTpW7VjvjpZ8mLT1mT4rflzM76W1n4udN41pfcR777tuicRdu6Mj9O2i7Je5umMA"}]}
+[2025-09-02T14:11:33+07:00] [submit] push OK
+[2025-09-02T14:53:19+07:00] [submit] compose -> 🆕 มีงานใหม่เข้าระบบ | Ticket: RH-20250902-0002 | ผู้แจ้ง: - | ประเภท: - | สำคัญ: ปกติ | เวลา: 02/09 14:53
+[2025-09-02T14:53:19+07:00] [submit] settings -> tokenLen=172 to=U406d1975635d6fa945565a97f248fa1b
+[2025-09-02T14:53:19+07:00] OK HTTP:200 | RES:{"sentMessages":[{"id":"577083038606033122","quoteToken":"BgLdGbaAWH9mV08BbgYk4ywZbiZllnQ4CpaKHIzEeJ2Ce-1STiQDxoiZAHaX8l-AlP0NgABVGWgTF3QCjd0g0y8D1ykPh1x1j1BfbarEbaW4Sa2qTuGlB4OQp6t6UYbI-DYnx47pe9vpxGyAhdk6QQ"}]}
+[2025-09-02T14:53:19+07:00] [submit] push OK
+[2025-09-03T11:33:14+07:00] OK HTTP:200 | RES:{"sentMessages":[{"id":"577207851982783015","quoteToken":"DF6DsvrB6WIhf8-WzLg7bF_8G8KLyKWnK1QEUpN8NsztCB8P-2WsqQ7VSBaPqtxXr5BDaNTJkFWmruGJna07rgw9n2mub59enNlxCC48NZFwXsiCNjcGO0gQ6vyklMvjAJxA_jbsvMUOIbuKAaXi6A"}]}
+[2025-09-03T11:36:16+07:00] OK HTTP:200 | RES:{"sentMessages":[{"id":"577208159492636966","quoteToken":"IibMJQ_kOz-z9LTOBT7sbM7q5kFJ40O4X4zYuGO1z4xTVzD_FxtppMezbvG2p5zeVtmMz9HGx8uUwnVAfS1ZIKwonYfGyfGGJ_SYlp9ubyefw8_qWlG9yDs09T7Knl9j1H0ZGGKJocu-3CxYDijs7A"}]}
+[2025-09-03T11:40:44+07:00] OK HTTP:200 | RES:{"sentMessages":[{"id":"577208608383828107","quoteToken":"Ev1y8plqLgS5iUybaTfPqaN4PsKBqQja6jfQR2zNjGKDaQjlWCPgRt5h3JNsBSTK88T1LH501jxj9LmBDEifMPrw4-l0h8WwZmRPfN2zQpiI_PP2hwYluqNPnVPNbaqeptBYkxMspy1UNtH1WVHs6A"}]}
+[2025-09-03T11:44:30+07:00] OK HTTP:200 | RES:{"sentMessages":[{"id":"577208988740092266","quoteToken":"Y2UZQKfflXRzuTj94xFEWVqzXr9PiD_AwQ8YjsIUFeDtg79N40n8SYRjZjflNM9qG8UwfpGn0OiwmtcMH4efkRO2L02KIfLbRigyWLxUH_JYg58wmqR2wdL2wUKudyfjMdCuEnMKdBarYYd4efRKPg"}]}
+[2025-09-03T11:48:59+07:00] [submit] compose -> 🆕 มีงานใหม่เข้าระบบ | Ticket: RH-20250903-0001 | ผู้แจ้ง: ทดสอบระบบแจ้งเตือน line | ประเภท: ซอฟต์แวร์ | สำคัญ: ปกติ | แผนก: IT | สถานที่: IT | เวลา: 03/09 11:48
+[2025-09-03T11:48:59+07:00] [submit] settings -> tokenLen=172 to=U406d1975635d6fa945565a97f248fa1b
+[2025-09-03T11:48:59+07:00] OK HTTP:200 | RES:{"sentMessages":[{"id":"577209439342297111","quoteToken":"0i9DL-THbKem8gaR_HfOd0g7tfSBXx7Ye_GIeMt5SYNTJlOvdV1EXOns7UwN4JEpijajWkGkKOQ8-sCv-caI5jS6-XH4Qbc3S47F3oDvdRhDe-Tf8gF8KjyRfFOT7E4X9fqEUct8evGLHWYNDEGukg"}]}
+[2025-09-03T11:48:59+07:00] [submit] push OK
+[2025-09-03T11:54:32+07:00] [submit] compose -> 🆕 มีงานใหม่เข้าระบบ | Ticket: RH-20250903-0002 | ผู้แจ้ง: ทดสอบระบบไลน์ | ประเภท: ซอฟต์แวร์ | สำคัญ: ปกติ | แผนก: IT | สถานที่: IT | เวลา: 03/09 11:54
+[2025-09-03T11:54:32+07:00] [submit] settings -> tokenLen=172 to=U406d1975635d6fa945565a97f248fa1b
+[2025-09-03T11:54:33+07:00] OK HTTP:200 | RES:{"sentMessages":[{"id":"577209999668019513","quoteToken":"0QC7_-DB4Mc5laDzRWlSilZRBHdWI7cHY9E19_Im4gWCeNIGscBxlTwwQaNfUIrySzmZhbljTB-trll7uu8kUhyMKoeaNiL1VFLURjFySVcAk4VyvdpGzqTI7IvbCV3z3cx6Y0m_BZJxM61ma-RqvA"}]}
+[2025-09-03T11:54:33+07:00] [submit] push OK
+[2025-09-03T12:00:46+07:00] [submit] compose -> 🆕 มีงานใหม่เข้าระบบ | Ticket: RH-20250903-0003 | ผู้แจ้ง: ทดสอบไลน์น๊ะจ๊ะ | ประเภท: กล้อง CCTV | สำคัญ: ปกติ | แผนก: IT | สถานที่: IT | เวลา: 03/09 12:00 | 🔗 ติดตามสถานะ: http://localhost/repairhub/track.php?t=RH-20250903-0003 | 🔗 เปิดในแอดมิน: http://localhost/repairhub/admin/request_view.php?id=28
+[2025-09-03T12:00:46+07:00] [submit] settings -> tokenLen=172 to=U406d1975635d6fa945565a97f248fa1b
+[2025-09-03T12:00:47+07:00] OK HTTP:200 | RES:{"sentMessages":[{"id":"577210625743388955","quoteToken":"UH5xMQf02VeT97CPCcTQbjHXCK5TPTP1iuPeXWSjZ9U-TQAtuc6Eo9KnXB4bihlDXusyCLeHqxWjjvdYZMfAuMCbhE-tCamL_5tkI7eakjAqup0iyJF1eIQMwmgDjcSVZMoDMpddF9WsFQ0bEXe5fg"}]}
+[2025-09-03T12:00:47+07:00] [submit] push OK
+[2025-09-03T15:00:36+07:00] OK HTTP:200 | RES:{"sentMessages":[{"id":"577228723409912169","quoteToken":"1es1OSHLlt6h5XdyjsR8bw4ky4uszywmK1_Gbl76744zUF0SvFlUzsc5cbBdAGCDLNKlOAXr0kq9FfVLLAIQNi2CBrRhXNavzXdTyTCotDn3Vup84o85zp36CiKCE0T4-OPT5ceeVPhmpHn9coGO5g"}]}
+[2025-09-03T15:05:21+07:00] OK HTTP:200 | RES:{"sentMessages":[{"id":"577229201661756094","quoteToken":"08csoZ_4ix_8kNWYC4uXlq0Y291eLq3_rx_G3ouCE9E30HvBCT7QYYxSAPlh19MkObxdz5DZtvavWWbl-3mPu4s146zjFevs4h9EGq0rXEKpcFwTfeeEJfB1nprMLqHWCD417R33yMW2o9-0zPUjcA"}]}

@@ -1,0 +1,76 @@
+/* ===== RepairHub Lite - CCTV Checklist (namespaced + responsive) ===== */
+.rht-wrapper {
+  --rht-bg: #0b132a;
+  --rht-surface: #111a33;
+  --rht-surface-2: #0f172a;
+  --rht-border: #334155;
+  --rht-text: #e5e7eb;
+  --rht-text-dim: #cbd5e1;
+  --rht-accent: #22d3ee;
+  --rht-accent-2: #60a5fa;
+  --rht-danger: #ef4444;
+  --rht-ok: #22c55e;
+  --rht-radius: 14px;
+  --rht-shadow: 0 10px 25px rgba(0,0,0,.25);
+
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Noto Sans Thai', 'IBM Plex Sans Thai', Tahoma, Arial, sans-serif;
+  color: var(--rht-text);
+  background: var(--rht-bg);
+  min-height: 100dvh;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.rht-header { display:flex; justify-content:space-between; align-items:flex-end; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.rht-title { display:flex; gap:10px; align-items:center; }
+.rht-logo { color: var(--rht-accent); }
+.rht-title-top { font-weight:700; font-size:1.2rem; }
+.rht-title-sub { font-size:.9rem; color:var(--rht-text-dim); }
+
+.rht-field { display:grid; gap:6px; }
+.rht-select, .rht-input, .rht-btn { border-radius: 12px; border:1px solid var(--rht-border); padding:8px 12px; background:var(--rht-surface); color:var(--rht-text); box-shadow:0 4px 12px rgba(0,0,0,.15); }
+.rht-btn { cursor:pointer; font-weight:700; }
+.rht-btn-ghost { background: var(--rht-surface); }
+.rht-btn-outline { background: var(--rht-surface); border-style:dashed; }
+.rht-controls { display:flex; gap:8px; align-items:end; flex-wrap:wrap; }
+
+.rht-table-wrap { background: var(--rht-surface-2); border:1px solid var(--rht-border); border-radius: var(--rht-radius); padding:10px; box-shadow: var(--rht-shadow); overflow:auto; }
+.rht-table { border-collapse: separate; border-spacing: 0; width:100%; min-width:960px; }
+.rht-table th, .rht-table td { border:1px solid var(--rht-border); padding:6px 8px; text-align:center; white-space:nowrap; }
+.rht-table thead th { position: sticky; top: 0; background:#0e1835; z-index: 2; }
+.rht-caption { text-align:left; color:var(--rht-text-dim); padding:6px 4px; }
+
+.rht-table th:first-child,
+.rht-table td:first-child {
+  position: sticky; left:0; background:#0e1835; z-index:3; text-align:left;
+}
+
+.rht-cell { cursor:pointer; min-width:40px; height:30px; user-select:none; }
+.rht-cell[data-val="/"] { color:var(--rht-ok); font-weight:800; }
+.rht-cell[data-val="×"] { color:var(--rht-danger); font-weight:800; }
+
+.rht-stats-ok { background: rgba(34,197,94,.12); }
+.rht-stats-bad { background: rgba(239,68,68,.12); }
+.rht-stats-pct { background: rgba(96,165,250,.12); }
+
+.rht-footer { margin-top:12px; display:grid; gap:10px; }
+.rht-inline { display:flex; align-items:center; gap:8px; }
+.rht-legend { color:var(--rht-text-dim); }
+.rht-badge { background:#0c2738; border:1px solid var(--rht-border); padding:2px 6px; border-radius:999px; }
+
+@media (max-width: 768px) {
+  .rht-title-top { font-size:1.05rem; }
+  .rht-cell { min-width:34px; height:28px; }
+  .rht-table { min-width:720px; }
+}
+@media (max-width: 480px) {
+  .rht-cell { min-width:30px; height:26px; }
+  .rht-table { min-width:640px; }
+}
+@media print {
+  .rht-controls, .rht-footer, .rht-title-sub { display:none !important; }
+  .rht-wrapper { background:#fff; color:#000; padding:0; }
+  .rht-table-wrap { border:none; box-shadow:none; }
+  .rht-table th, .rht-table td { border:1px solid #000; color:#000; }
+  .rht-table thead th, .rht-table th:first-child, .rht-table td:first-child { background:#eee; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

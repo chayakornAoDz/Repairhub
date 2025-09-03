@@ -31,7 +31,7 @@ function nfmt($n){
 <html lang="th">
 <head>
 <meta charset="utf-8">
-<title>รายการสินค้า - รายงานสต็อก (PDF)</title>
+<title>รายการทรัพย์สิน - รายงานทรัพย์สิน (PDF)</title>
 <style>
   /* รูปแบบพื้นฐานสำหรับพิมพ์ */
   body{
@@ -79,7 +79,7 @@ function nfmt($n){
 </head>
 <body>
 
-  <h1>รายงานรายการสินค้า (Stock List)</h1>
+  <h1>รายงานรายการทรัพย์สิน (Stock List)</h1>
   <div class="muted">
     วันที่ออกรายงาน: <?= h(date('d/m/Y H:i')) ?>
     <?php if($cat!==''): ?> • หมวดหมู่: <?= h($cat) ?><?php endif; ?>
@@ -100,7 +100,7 @@ function nfmt($n){
       <tr>
         <th>หมวดหมู่</th>
         <th>รหัสทรัพย์สิน</th>
-        <th>ชื่อสินค้า</th>
+        <th>ชื่อทรัพย์สิน</th>
         <th class="right">คงเหลือ</th>
         <th class="center">หน่วย</th>
         <th class="right">Min</th>

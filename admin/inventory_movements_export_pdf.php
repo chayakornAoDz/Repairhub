@@ -45,7 +45,7 @@ function typeLabel($t){
 <html lang="th">
 <head>
 <meta charset="utf-8">
-<title>รายงานความเคลื่อนไหวสต็อก (<?= h($from) ?> ถึง <?= h($to) ?>)</title>
+<title>รายงานความเคลื่อนไหวทรัพย์สิน (<?= h($from) ?> ถึง <?= h($to) ?>)</title>
 <style>
   /* พื้นฐาน */
   body{
@@ -82,7 +82,7 @@ function typeLabel($t){
 </style>
 </head>
 <body>
-  <h1>รายงานความเคลื่อนไหวสต็อก</h1>
+  <h1>รายงานความเคลื่อนไหวทรัพย์สิน</h1>
   <div class="muted">ช่วง <?= h($from) ?> – <?= h($to) ?></div>
   <br>
 
@@ -99,7 +99,7 @@ function typeLabel($t){
     <thead>
       <tr>
         <th>เวลา</th>
-        <th>สินค้า</th>
+        <th>ทรัพย์สิน</th>
         <th>ประเภท</th>
         <th class="right">จำนวน</th>
         <th class="right">คงเหลือหลังทำ</th>

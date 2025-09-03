@@ -1,0 +1,185 @@
+/* =========================================================
+   RepairHub Lite - Responsive Sidebar
+   Desktop: hover-expand
+   Mobile: fixed rail (tap to expand)
+   Prefix: rh-
+   ========================================================= */
+
+:root{
+  --rh-sidebar-w: 260px;           /* desktop expanded */
+  --rh-sidebar-w-collapsed: 72px;  /* desktop collapsed */
+  --rh-sidebar-w-mobile: 220px;    /* mobile expanded width */
+  --rh-rail-w-mobile: 40px;        /* mobile rail width (icons only) */
+
+  --rh-topbar-h: 56px;
+  --rh-bg: #0e1a2b;
+  --rh-bg-soft: #0b1320;
+  --rh-border: #1f2a44;
+  --rh-text: #dbe3f3;
+  --rh-muted: #8aa0c6;
+  --rh-accent: #19c3d3;
+}
+
+/* ===== Layout & Sidebar (Desktop baseline) ===== */
+.rh-layout{
+  display:grid;
+  grid-template-columns: var(--rh-sidebar-w) 1fr;
+  min-height:100vh;
+  background:#0a1222;
+  transition: grid-template-columns .22s cubic-bezier(.22,.61,.36,1);
+  will-change: grid-template-columns;
+}
+.rh-sidebar{
+  position:sticky; top:0; height:100vh;
+  background:var(--rh-bg);
+  border-right:1px solid var(--rh-border);
+  padding:14px;
+  overflow:hidden;
+  z-index:30;
+  width:var(--rh-sidebar-w);
+  transition: width .22s cubic-bezier(.22,.61,.36,1), padding .22s ease;
+  will-change: width, padding;
+}
+
+/* ===== Brand / Buttons / Nav ===== */
+.rh-brand{
+  display:flex; align-items:center; gap:10px;
+  padding:6px 8px 10px 8px; margin-bottom:8px;
+  color:var(--rh-text); text-decoration:none;
+}
+.rh-brand .rh-logo{
+  width:36px; height:36px; border-radius:10px;
+  display:grid; place-items:center; background:#111b2f; border:1px solid var(--rh-border);
+}
+.rh-brand strong{ font-size:18px; font-weight:700; letter-spacing:.2px; }
+
+.rh-btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:10px 12px; border-radius:12px;
+  background:#0b132a; border:1px solid var(--rh-border); color:var(--rh-text);
+  cursor:pointer; text-decoration:none; user-select:none;
+}
+.rh-btn:hover{ border-color:#2a3a61; }
+.rh-btn svg{ width:18px; height:18px; }
+
+.rh-nav{ margin-top:6px; }
+.rh-nav a{
+  display:flex; align-items:center; gap:12px;
+  padding:10px 12px; margin:4px 0;
+  border-radius:12px; color:var(--rh-text); text-decoration:none;
+  border:1px solid transparent;
+}
+.rh-nav a:hover{ background:#0c1730; border-color:#1c2a49; }
+.rh-nav a svg{ width:20px; height:20px; flex:0 0 20px; }
+.rh-link-label{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+.rh-badge{
+  margin-left:auto; padding:0 8px; height:20px; border-radius:999px; font-size:12px;
+  display:inline-flex; align-items:center; background:#10233f; color:#9cd8ff; border:1px solid #1e365f;
+}
+
+.rh-nav a.is-active{ background:#0f233d; border-color:#224270; box-shadow: inset 0 0 0 1px #224270; }
+.rh-nav a.is-active .rh-link-label{ color:#e6f2ff; }
+
+/* ===== Main / Topbar / Content ===== */
+.rh-main{ min-height:100vh; display:block; }
+.rh-topbar{
+  position:sticky; top:0; z-index:25;
+  height:var(--rh-topbar-h);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 14px; background:var(--rh-bg-soft);
+  border-bottom:1px solid var(--rh-border);
+}
+.rh-topbar .rh-mobile-toggle{ display:none !important; }
+.rh-content{ padding:18px; }
+
+/* ===== Desktop: collapsed + hover to expand ===== */
+body.rh-collapsed .rh-layout{ grid-template-columns: var(--rh-sidebar-w-collapsed) 1fr; }
+body.rh-collapsed .rh-sidebar{ width:var(--rh-sidebar-w-collapsed); padding-left:10px; padding-right:10px; }
+body.rh-collapsed .rh-nav a{ justify-content:center; }
+
+.rh-link-label, .rh-badge, .rh-brand strong{
+  transition: opacity .18s ease, transform .18s ease, max-width .18s ease;
+  will-change: opacity, transform, max-width;
+}
+body.rh-collapsed .rh-link-label,
+body.rh-collapsed .rh-badge,
+body.rh-collapsed .rh-brand strong{
+  opacity:0; transform: translateX(-6px);
+  max-width:0; overflow:hidden;
+}
+
+@media (min-width:1024px){
+  body.rh-collapsed.rh-hover .rh-layout{ grid-template-columns: var(--rh-sidebar-w) 1fr; }
+  body.rh-collapsed.rh-hover .rh-sidebar{ width:var(--rh-sidebar-w); padding-left:14px; padding-right:14px; }
+  body.rh-collapsed.rh-hover .rh-link-label,
+  body.rh-collapsed.rh-hover .rh-badge,
+  body.rh-collapsed.rh-hover .rh-brand strong{ opacity:1; transform:none; max-width:220px; }
+  body.rh-collapsed.rh-hover .rh-nav a{ justify-content:flex-start; }
+}
+
+/* =========================================================
+   MOBILE MODE — fixed rail + tap-to-expand (override)
+   ========================================================= */
+@media (max-width:1024px){
+  html, body { overflow-x: hidden; }
+
+  /* ไม่ใช้ grid บนมือถือ (กันชนกันกับไซด์บาร์ fixed) */
+  .rh-layout{ display:block !important; }
+
+  /* rail 40px ติดซ้ายตลอด */
+  .rh-sidebar{
+    position: fixed !important;
+    left: 0; top: 0; bottom: 0;
+    width: var(--rh-rail-w-mobile) !important;
+    height: 100dvh;
+    padding: 30px 1px;
+    overflow-y: auto;
+    z-index: 1000;
+  }
+
+  /* เนื้อหาขยับขวาเท่ากับ rail */
+  .rh-main{ margin-left: calc(var(--rh-rail-w-mobile) + 12px) !important; }
+
+  /* ซ่อนข้อความใน rail */
+  .rh-link-label, .rh-badge, .rh-brand strong{
+    opacity:0; transform: translateX(-6px); max-width:0; overflow:hidden;
+  }
+  .rh-nav a{ justify-content:center; padding:10px 8px; }
+  .rh-nav a svg{ width:18px; height:18px; }
+  .rh-brand{ display:none; }
+
+  /* เมื่อกาง */
+  body.rh-mobile-expanded .rh-sidebar{ 
+    width: var(--rh-sidebar-w-mobile) !important; 
+    padding: 14px; 
+  }
+  body.rh-mobile-expanded .rh-main{
+    margin-left: calc(var(--rh-sidebar-w-mobile) + 12px) !important;
+  }
+  body.rh-mobile-expanded .rh-brand{ display:flex; }
+  body.rh-mobile-expanded .rh-link-label,
+  body.rh-mobile-expanded .rh-badge,
+  body.rh-mobile-expanded .rh-brand strong{
+    opacity:1; transform:none; max-width:220px;
+  }
+  body.rh-mobile-expanded .rh-nav a{ justify-content:flex-start; padding:10px 12px; }
+
+  /* Topbar & content spacing on mobile */
+  .rh-topbar{ height:52px; padding:0 10px; }
+  .rh-topbar strong{ font-size: clamp(12px, 3.4vw, 14px); line-height:1.2; }
+  .rh-content{ padding:12px; }
+}
+
+/* Backdrop: โชว์ตอนกางบนมือถือ */
+.rh-backdrop{ content:""; position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; z-index:20; }
+body.rh-mobile-expanded .rh-backdrop{ display:block; }
+
+/* Misc */
+.rh-divider{ height:1px; background:var(--rh-border); margin:10px 0; border-radius:1px; }
+.rh-muted{ color:var(--rh-muted); font-size:12px; }
+.rh-desktop-toggle{ display:none !important; }
+
+@media (prefers-reduced-motion: reduce){
+  *{ transition:none !important; animation:none !important; }
+}

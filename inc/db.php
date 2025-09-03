@@ -27,6 +27,20 @@ function db() {
     }
     return $pdo;
 }
+// เพิ่มฟังก์ชันเช็ค/เพิ่มคอลัมน์
+function ensure_column(PDO $pdo, string $table, string $column, string $type) {
+    // รองรับ SQLite
+    $has = false;
+    $rs = $pdo->query("PRAGMA table_info($table)");
+    if ($rs) {
+        foreach ($rs as $r) {
+            if (strcasecmp($r['name'], $column) === 0) { $has = true; break; }
+        }
+    }
+    if (!$has) {
+        $pdo->exec("ALTER TABLE $table ADD COLUMN $column $type");
+    }
+}
 
 function init_db($pdo) {
     $pdo->exec('CREATE TABLE IF NOT EXISTS admins (

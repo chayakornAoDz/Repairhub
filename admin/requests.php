@@ -51,13 +51,6 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 /* ---------- ประเภททั้งหมด (ทำ dropdown) ---------- */
 $cats = $pdo->query("SELECT DISTINCT category FROM requests WHERE category <> '' ORDER BY category")
             ->fetchAll(PDO::FETCH_COLUMN);
-
-/* ---------- สร้าง query string สำหรับลิงก์เพจ ---------- */
-function keep_qs($overrides = []) {
-  $q = $_GET; unset($q['page']);
-  $q = array_merge($q, $overrides);
-  return http_build_query($q);
-}
 ?>
 <div class="card">
   <h1 style="margin-top:0">งานซ่อม</h1>
@@ -121,39 +114,34 @@ function keep_qs($overrides = []) {
           <td><?= h($r['name']) ?></td>
           <td><span class="chip"><?= h($r['category']) ?: '-' ?></span></td>
           <td>
-        <?php
-          // ค่าปลอดภัย + fallback
-          $prio = trim($r['priority'] ?? 'ปกติ');
-
-          // map ค่าความสำคัญ -> class สีของ badge
-          $prioClassMap = [
-            'วิกฤต'   => 'bad',   // แดง
-            'ด่วนมาก' => 'bad',   // ถ้ามีคำนี้
-            'เร่งด่วน' => 'warn',  // ส้ม
-            'สูง'      => 'warn',  // ส้ม
-            'ปกติ'     => 'good',  // เขียว
-            'ต่ำ'      => 'muted', // เทา (ถ้ามี)
-          ];
-          $pc = $prioClassMap[$prio] ?? 'good';
-        ?>
+            <?php
+              $prio = trim($r['priority'] ?? 'ปกติ');
+              $prioClassMap = [
+                'วิกฤต'   => 'bad',
+                'ด่วนมาก' => 'bad',
+                'เร่งด่วน' => 'warn',
+                'สูง'      => 'warn',
+                'ปกติ'     => 'good',
+                'ต่ำ'      => 'muted',
+              ];
+              $pc = $prioClassMap[$prio] ?? 'good';
+            ?>
             <span class="badge <?= $pc ?>"><?= h($prio) ?></span>
           </td>
           <td>
-          <?php
-            $status = trim($r['status'] ?? '');
-
-            // map สถานะ -> class สี
-            $statusClassMap = [
-              'ใหม่'          => 'bad',    // แดง (งานใหม่ = ยังไม่ทำ)
-              'กำลังดำเนินการ' => 'warn',   // ส้ม
-              'รออะไหล่'      => 'warn',  // ส้ม
-              'เสร็จสิ้น'      => 'good',   // เขียว
-              'ยกเลิก'        => 'bad',    // แดง
-            ];
-            $sc = $statusClassMap[$status] ?? 'muted';
-          ?>
-          <span class="badge <?= $sc ?>"><?= h($status) ?></span>
-        </td>
+            <?php
+              $status = trim($r['status'] ?? '');
+              $statusClassMap = [
+                'ใหม่'          => 'bad',
+                'กำลังดำเนินการ' => 'warn',
+                'รออะไหล่'      => 'warn',
+                'เสร็จสิ้น'      => 'good',
+                'ยกเลิก'        => 'bad',
+              ];
+              $sc = $statusClassMap[$status] ?? 'muted';
+            ?>
+            <span class="badge <?= $sc ?>"><?= h($status) ?></span>
+          </td>
           <td><a class="btn btn-ghost" href="request_view.php?id=<?= (int)$r['id'] ?>">เปิด</a></td>
         </tr>
       <?php endforeach; ?>
@@ -165,22 +153,24 @@ function keep_qs($overrides = []) {
 
   <!-- เพจิเนชัน -->
   <?php if ($totalPages > 1): ?>
+    <?php
+      // ใช้ตัวช่วยทำลิงก์เพจ — จะได้เป็น requests.php?page=2 เสมอ
+      $mk = fn($p) => rh_page_url($p);
+      $window = 5;
+      $start  = max(1, $page - 2);
+      $end    = min($totalPages, max($start + $window - 1, $page + 2));
+      $start  = max(1, min($start, $end - $window + 1));
+    ?>
     <nav class="pagination">
-      <a class="page-btn <?= $page<=1?'disabled':'' ?>" href="?<?= keep_qs(['page'=>1]) ?>">« หน้าแรก</a>
-      <a class="page-btn <?= $page<=1?'disabled':'' ?>" href="?<?= keep_qs(['page'=>$page-1]) ?>">‹ ก่อนหน้า</a>
+      <a class="page-btn <?= $page<=1?'disabled':'' ?>" href="<?= h($mk(1)) ?>">« หน้าแรก</a>
+      <a class="page-btn <?= $page<=1?'disabled':'' ?>" href="<?= h($mk(max(1,$page-1))) ?>">‹ ก่อนหน้า</a>
 
-      <?php
-        $window = 5;
-        $start = max(1, $page - 2);
-        $end   = min($totalPages, max($start + $window - 1, $page + 2));
-        $start = max(1, min($start, $end - $window + 1));
-        for($p=$start; $p<=$end; $p++):
-      ?>
-        <a class="page-btn <?= $p==$page?'active':'' ?>" href="?<?= keep_qs(['page'=>$p]) ?>"><?= $p ?></a>
+      <?php for($p=$start; $p<=$end; $p++): ?>
+        <a class="page-btn <?= $p==$page?'active':'' ?>" href="<?= h($mk($p)) ?>"><?= (int)$p ?></a>
       <?php endfor; ?>
 
-      <a class="page-btn <?= $page>=$totalPages?'disabled':'' ?>" href="?<?= keep_qs(['page'=>$page+1]) ?>">ถัดไป ›</a>
-      <a class="page-btn <?= $page>=$totalPages?'disabled':'' ?>" href="?<?= keep_qs(['page'=>$totalPages]) ?>">หน้าสุดท้าย »</a>
+      <a class="page-btn <?= $page>=$totalPages?'disabled':'' ?>" href="<?= h($mk(min($totalPages,$page+1))) ?>">ถัดไป ›</a>
+      <a class="page-btn <?= $page>=$totalPages?'disabled':'' ?>" href="<?= h($mk($totalPages)) ?>">หน้าสุดท้าย »</a>
     </nav>
   <?php endif; ?>
 </div>

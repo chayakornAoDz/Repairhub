@@ -1,6 +1,9 @@
 <?php
-require_once __DIR__ . '/header.php';
+// จงอย่าให้มี output ใด ๆ ก่อนบล็อกนี้ (รวมทั้งช่องว่างก่อน <?php)
+// ทำงานส่วน POST ให้เสร็จก่อน แล้วจึงค่อย require header.php
+
 require_once __DIR__ . '/../inc/functions.php';
+if (session_status() === PHP_SESSION_NONE) session_start();
 
 $pdo = db();
 
@@ -66,8 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if ($type === 'in' || $type === 'return') $new += $qty;
       if ($type === 'out' || $type === 'issue')  $new -= $qty;
       if ($type === 'adjust')                    $new  = $qty;
-
-      // (แนะนำ) กันติดลบโดยไม่ตั้งใจ
       if ($new < 0) throw new Exception('ยอดคงเหลือติดลบ ตรวจสอบจำนวนอีกครั้ง');
 
       $upd = $pdo->prepare('UPDATE inventory_items SET stock_qty=?, updated_at=? WHERE id=?');
@@ -96,10 +97,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['flash'] = ['msg'=>'', 'err'=>'ผิดพลาด: '.$e->getMessage()];
   }
 
-  // >>> เปลี่ยนปลายทางให้ตรงหน้านี้ <<<
   header('Location: inventory_add_edit.php' . $qs);
   exit;
 }
+
+// ------------ จากนี้ค่อยเริ่มเรนเดอร์หน้า ------------
+require_once __DIR__ . '/header.php';
 
 /* ---------- ดึงรายการทั้งหมดสำหรับ datalist ---------- */
 $itemsAll = $pdo->query('SELECT id, sku, name, category, unit, stock_qty FROM inventory_items ORDER BY name')
@@ -113,7 +116,7 @@ $_SESSION['flash'] = ['msg'=>'','err'=>''];
 
 <div class="inv-page container">
   <div class="inv-head">
-    <h1 class="inv-title">สต็อกสินค้า</h1>
+    <h1 class="inv-title">ทรัพย์สิน</h1>
     <?php if ($flash['msg']): ?><div class="inv-badge inv-good"><?= h($flash['msg']) ?></div><?php endif; ?>
     <?php if ($flash['err']): ?><div class="inv-badge inv-bad"><?= h($flash['err']) ?></div><?php endif; ?>
   </div>
@@ -121,7 +124,7 @@ $_SESSION['flash'] = ['msg'=>'','err'=>''];
   <div class="inv-row">
     <!-- การ์ดเพิ่มสินค้า -->
     <form class="inv-card" method="post" autocomplete="off">
-      <h3 class="inv-card-title">เพิ่มสินค้า</h3>
+      <h3 class="inv-card-title">เพิ่มทรัพย์สิน</h3>
       <input type="hidden" name="action" value="add_item">
 
       <label>ชื่อ</label>
@@ -129,7 +132,7 @@ $_SESSION['flash'] = ['msg'=>'','err'=>''];
 
       <div class="inv-grid-2">
         <div>
-          <label>รหัสทรัพย์สิน (ถ้ามี)</label>
+          <label>รหัสทรัพย์สิน (ถ้ามีและไม่ซ้ำกัน)</label>
           <input class="inv-input" name="sku">
         </div>
         <div>
@@ -161,7 +164,7 @@ $_SESSION['flash'] = ['msg'=>'','err'=>''];
       <input type="hidden" name="action" value="move">
       <input type="hidden" name="item_id" id="inv-item-id">
 
-      <label>สินค้า</label>
+      <label>ทรัพย์สิน</label>
       <input class="inv-input" name="item_term" id="inv-item-term" list="inv-items" placeholder="พิมพ์ชื่อหรือรหัส…">
       <datalist id="inv-items">
         <?php foreach ($itemsAll as $i): ?>
@@ -192,57 +195,76 @@ $_SESSION['flash'] = ['msg'=>'','err'=>''];
       <input class="inv-input" name="reference">
 
       <button class="inv-btn inv-primary" type="submit" onclick="this.disabled=true;this.form.submit();">บันทึก</button>
-
-      <!-- (ตัดบล็อกปรับล่าสุดเดิมในการ์ดนี้ออกแล้ว) -->
     </form>
   </div>
 
-  <!-- ปรับล่าสุด (ย้ายลงมาล่างสุด) -->
+  <!-- ปรับล่าสุด -->
   <div class="card" style="margin-top:20px">
     <h3 style="margin:0 0 10px">ปรับล่าสุด</h3>
     <div id="inv-recent-box" style="min-height:180px">
       <div class="inv-recent-sub">กำลังโหลด...</div>
     </div>
+    <div id="inv-recent-nav" style="margin-top:8px"></div>
   </div>
 </div>
 
 <script>
-// map datalist -> hidden item_id
-(function(){
-  const term   = document.getElementById('inv-item-term');
-  const hidden = document.getElementById('inv-item-id');
-  const list   = document.getElementById('inv-items');
-  if (!term || !hidden || !list) return;
+/* ===== ปรับล่าสุด: ปุ่มแบบ Users + อัปเดตอัตโนมัติเมื่ออยู่หน้า 1 ===== */
+let recentTimer    = null;
+let recentPage     = 1;
+const perPage      = 5;
+let totalRows      = 0;
+let totalPages     = 1;
+let recentLoading  = false;
 
-  term.addEventListener('change', () => {
-    hidden.value = '';
-    const opt = Array.from(list.options).find(o => o.value === term.value);
-    if (opt && opt.dataset.id) hidden.value = opt.dataset.id;
-  });
-})();
-</script>
-
-<script>
-let recentTimer = null;
+function stopRecentPolling(){ if (recentTimer){ clearInterval(recentTimer); recentTimer = null; } }
+function startRecentPolling(){
+  stopRecentPolling();
+  if (recentPage === 1){
+    fetchRecentMoves();                       // หน้าแรก: อัปเดตอัตโนมัติ
+    recentTimer = setInterval(fetchRecentMoves, 5000);
+  }else{
+    fetchRecentMoves();                       // หน้าอื่น: โหลดครั้งเดียว
+  }
+}
 
 async function fetchRecentMoves(){
-  try{
-    const r = await fetch('api/inventory_recent.php?limit=5', { cache:'no-store' });
-    const data = await r.json();
-    const box  = document.getElementById('inv-recent-box');
+  if (recentLoading) return;
+  recentLoading = true;
 
-    if (!Array.isArray(data) || data.length === 0) {
+  try{
+    const offset = (recentPage - 1) * perPage;
+    const url    = `api/inventory_recent.php?meta=1&limit=${perPage}&offset=${offset}`;
+    const res    = await fetch(url, { cache:'no-store' });
+    const data   = await res.json();
+
+    const rows = Array.isArray(data?.rows) ? data.rows : (Array.isArray(data) ? data : []);
+    if (typeof data?.total === 'number'){
+      totalRows  = data.total;
+      totalPages = Math.max(1, Math.ceil(totalRows / perPage));
+    }else{
+      // เผื่อ fallback ถ้าไม่มี total (ไม่ควรเกิดถ้าใช้ meta=1)
+      totalPages = (rows.length === perPage) ? recentPage + 1 : recentPage;
+    }
+
+    // ถ้าไปเกินหน้าสุดท้าย ให้ถอยกลับอัตโนมัติ
+    if (recentPage > totalPages){
+      recentPage = totalPages;
+      return fetchRecentMoves();
+    }
+
+    const box = document.getElementById('inv-recent-box');
+    if (!rows.length){
       box.innerHTML = '<div class="inv-recent-sub">ยังไม่มีข้อมูล</div>';
+      renderRecentNav();
       return;
     }
 
-    box.innerHTML = data.map(m => {
+    box.innerHTML = rows.map(m => {
       const sku  = m.sku ? `[${m.sku}] ` : '';
       const qty  = (m.qty ?? '') + ' ' + (m.unit ?? '');
       const note = m.reference || '-';
-      const bal  = (m.balance_after !== null && m.balance_after !== undefined)
-                   ? `<div class="inv-recent-sub">คงเหลือหลังปรับ: ${m.balance_after}</div>` : '';
-
+      const bal  = (m.balance_after ?? '') !== '' ? `<div class="inv-recent-sub">คงเหลือหลังปรับ: ${m.balance_after}</div>` : '';
       return `
         <div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06)">
           <div style="display:flex;align-items:center;gap:8px;justify-content:space-between">
@@ -261,26 +283,71 @@ async function fetchRecentMoves(){
         </div>
       `;
     }).join('');
+
+    renderRecentNav();
   }catch(e){
     console.error('[recent]', e);
+  }finally{
+    recentLoading = false;
   }
 }
 
-function startRecentPolling(){
-  if (recentTimer) clearInterval(recentTimer);
-  fetchRecentMoves();                             // ดึงทันที 1 รอบ
-  recentTimer = setInterval(fetchRecentMoves, 5000); // แล้วค่อยตั้ง interval
+function renderRecentNav(){
+  const nav = document.getElementById('inv-recent-nav');
+  const page = recentPage;
+
+  // สร้างช่วงตัวเลขแบบ window = 2 (เช่น … 1 2 [3] 4 5 …)
+  const windowSize = 2;
+  const start = Math.max(1, page - windowSize);
+  const end   = Math.min(totalPages, page + windowSize);
+
+  let html = `
+    <div class="pagination" style="flex-wrap:wrap">
+      <a href="#" class="page-btn ${page<=1?'disabled':''}" data-goto="first">« หน้าแรก</a>
+      <a href="#" class="page-btn ${page<=1?'disabled':''}" data-goto="prev">‹ ก่อนหน้า</a>
+  `;
+
+  for (let p = start; p <= end; p++){
+    html += `<a href="#" class="page-num ${p===page?'active':''}" data-page="${p}">${p}</a>`;
+  }
+
+  html += `
+      <a href="#" class="page-btn ${page>=totalPages?'disabled':''}" data-goto="next">ถัดไป ›</a>
+      <a href="#" class="page-btn ${page>=totalPages?'disabled':''}" data-goto="last">หน้าสุดท้าย »</a>
+    </div>
+    <div class="small muted" style="margin-top:4px">
+      ${page===1 ? 'อัปเดตอัตโนมัติทุก 5 วินาที' : 'กำลังดูหน้าก่อนหน้า (หยุดอัปเดตอัตโนมัติ)'}
+      · หน้า ${page} / ${totalPages}
+    </div>
+  `;
+
+  nav.innerHTML = html;
+
+  // ผูกเหตุการณ์คลิกปุ่ม
+  nav.querySelectorAll('a.page-btn, a.page-num').forEach(a => {
+    a.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      if (a.classList.contains('disabled')) return;
+
+      const goto = a.dataset.goto;
+      if (goto === 'first'){ recentPage = 1; }
+      else if (goto === 'prev'){ recentPage = Math.max(1, recentPage - 1); }
+      else if (goto === 'next'){ recentPage = Math.min(totalPages, recentPage + 1); }
+      else if (goto === 'last'){ recentPage = totalPages; }
+      else if (a.dataset.page){ recentPage = parseInt(a.dataset.page, 10) || 1; }
+
+      // หน้า 1 ให้กลับไปโหมดอัปเดตอัตโนมัติ
+      if (recentPage === 1) startRecentPolling();
+      else { stopRecentPolling(); fetchRecentMoves(); }
+    });
+  });
 }
 
-// หยุด/เริ่มเมื่อแท็บไม่โฟกัส เพื่อลดโหลดเซิร์ฟเวอร์
+// สลับโฟกัส -> หยุด/เริ่ม polling อัตโนมัติ
 document.addEventListener('visibilitychange', () => {
-  if (document.hidden) {
-    if (recentTimer) clearInterval(recentTimer);
-  } else {
-    startRecentPolling();
-  }
+  if (document.hidden) stopRecentPolling(); else startRecentPolling();
 });
 
+// เริ่มทำงาน
 document.addEventListener('DOMContentLoaded', startRecentPolling);
 </script>
-<?php require_once __DIR__ . '/footer.php'; ?>

@@ -1,122 +1,116 @@
-// assets/js/dashboard_chart.js
-// วาดกราฟแท่งแบบ Grouped จาก window.chartData (ไม่เรียก API)
-(function(){
-  function color(i){
-    const p = ['#22c55e','#3b82f6','#ef4444','#f59e0b','#8b5cf6','#06b6d4','#eab308','#f472b6'];
-    return p[i % p.length];
-  }
-  function legendHTML(cats){
-    return cats.map((c,i)=>`
-      <span style="display:inline-flex;align-items:center;gap:6px;margin-right:12px">
-        <span style="width:10px;height:10px;border-radius:2px;background:${color(i)};display:inline-block"></span>${c}
-      </span>`).join('');
-  }
-  function tipHTML(month, cat, val){
-    return `<div style="font-weight:600;margin-bottom:6px">${month}</div>
-            <div style="display:flex;justify-content:space-between;gap:16px">
-              <span>${cat}</span><b>${val}</b>
-            </div>`;
+// assets/js/dashboard_chart.js  (v8)
+(function () {
+  console.log('[pie] loaded v8');
+
+  const COLORS = ['#22d3ee','#60a5fa','#a78bfa','#34d399','#fbbf24','#f472b6','#f87171','#94a3b8'];
+  const esc = s => String(s ?? '').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+  function seriesForMonth(mi, data){
+    const cats = data.categories || [];
+    const row  = (data.matrix || [])[mi] || [];
+    return cats.map((label, i) => ({ label, value: +row[i] || 0 }));
   }
 
-  function run(){
-    const data = window.chartData;
-    if(!data) return;
+  function drawDonut(svgEl, series) {
+    if (!svgEl) return;
+    while (svgEl.firstChild) svgEl.removeChild(svgEl.firstChild);
 
-    const bar = document.getElementById('bar6');
-    const labelsEl = document.getElementById('bar6Labels');
-    const legendEl = document.getElementById('bar6Legend');
-    if(!bar || !labelsEl) return;
+    const ns = 'http://www.w3.org/2000/svg';
+    svgEl.setAttribute('viewBox','-50 -50 100 100');
 
-    // tooltip
-    let tip = document.getElementById('chartTip');
-    if(!tip){
-      tip = document.createElement('div');
-      tip.id = 'chartTip';
-      Object.assign(tip.style, {
-        position:'fixed', zIndex:9999, pointerEvents:'none',
-        background:'#0b1222', border:'1px solid #334155',
-        boxShadow:'0 10px 30px rgba(0,0,0,.35)', borderRadius:'12px',
-        padding:'10px 12px', fontSize:'12px', color:'#e5e7eb', display:'none'
-      });
-      document.body.appendChild(tip);
-    }
+    const rect = svgEl.getBoundingClientRect();
+    const size = Math.max(140, Math.min(rect.width || 200, rect.height || 200));
+    const R = Math.round(size * 0.30);
+    const W = Math.max(10, Math.round(size * 0.18));
+    const C = 2 * Math.PI * R;
 
-    const labels = data.labels || [];
-    const cats   = data.categories || [];
-    const M      = data.matrix || [];
-    const max    = Math.max(1, data.max || 1);
+    const g = document.createElementNS(ns, 'g');
+    g.setAttribute('transform', 'rotate(-90)');
+    svgEl.appendChild(g);
 
-    if(legendEl) legendEl.innerHTML = legendHTML(cats);
+    const track = document.createElementNS(ns, 'circle');
+    track.setAttribute('r', R); track.setAttribute('cx', 0); track.setAttribute('cy', 0);
+    track.setAttribute('fill','none'); track.setAttribute('stroke','#1f2937'); track.setAttribute('stroke-width', W);
+    g.appendChild(track);
 
-// ค่ากว้าง/ช่องว่างต่อแท่งและต่อกลุ่ม
-const barW = 14;                  // px ต่อแท่ง
-const gap  = 6;                   // ช่องไฟระหว่างแท่ง
-const groupPaddingLR = 16;        // padding ซ้าย/ขวาของกลุ่ม
-const groupMinWidth  = Math.max(110, (cats.length || 1) * (barW + gap) + groupPaddingLR*2);
-
-// ให้ container ของกราฟเว้นระยะเล็กน้อย และยืดเต็มความกว้าง
-bar.style.gap = '12px';
-
-// วาดกลุ่มต่อเดือน (ให้ยืดเต็มการ์ด)
-bar.innerHTML = M.map((row, mi) => {
-  const inner = (row || []).map((v, ci) => {
-    const h = Math.round((v / max) * 100);  // สูงเป็น %
-    const clr = color(ci);
-return `<div class="barItem" data-mi="${mi}" data-ci="${ci}"
-              style="height:${h}%; background:${clr};
-                     flex:1; margin:0 3px; border-radius:6px 6px 0 0"></div>`;
-
-  }).join('');
-
-  return `
-    <div class="group"
-         style="
-           /* ทำให้แต่ละเดือนยืดเต็มพื้นที่เท่า ๆ กัน */
-           flex: 1 1 0;
-           min-width:${groupMinWidth}px;
-           height:100%;
-           display:flex; align-items:flex-end;
-           border:1px solid #1f2937; border-radius:8px; background:#0b1222;
-           padding:8px ${groupPaddingLR}px;">
-      <div class="group-inner" style="display:flex; align-items:flex-end; height:100%; width:100%;">${inner}</div>
-    </div>`;
-}).join('');
-
-// labels ล่าง (ให้ยืดเต็มและเรียงเท่ากัน)
-labelsEl.innerHTML = labels.map(() =>
-  `<span style="
-      flex: 1 1 0;
-      min-width:${groupMinWidth}px;
-      text-align:center; display:inline-block"></span>`
-).join('');
-labelsEl.querySelectorAll('span').forEach((el, i) => el.textContent = labels[i] || '');
-labelsEl.style.display   = 'flex';
-labelsEl.style.gap       = '12px';
-labelsEl.style.overflowX = 'auto';
-
-    // เติมข้อความทีหลัง เพื่อไม่ให้ติดกัน
-    labelsEl.querySelectorAll('span').forEach((el, i) => el.textContent = labels[i] || '');
-
-    labelsEl.style.display   = 'flex';
-    labelsEl.style.gap       = '10px';
-    labelsEl.style.overflowX = 'auto';
-
-    // tooltip ต่อแท่ง
-    bar.querySelectorAll('.barItem').forEach(el => {
-      const mi = +el.getAttribute('data-mi');
-      const ci = +el.getAttribute('data-ci');
-      el.addEventListener('mouseenter', () => {
-        const val = (M[mi] && typeof M[mi][ci] !== 'undefined') ? M[mi][ci] : 0;
-        tip.innerHTML = tipHTML(labels[mi] || '', cats[ci] || '', val);
-        tip.style.display = 'block';
-      });
-      el.addEventListener('mousemove', (e) => {
-        tip.style.left = (e.clientX + 12) + 'px';
-        tip.style.top  = (e.clientY + 12) + 'px';
-      });
-      el.addEventListener('mouseleave', () => tip.style.display = 'none');
+    const total = Math.max(1, series.reduce((s,x)=>s+(x.value||0),0));
+    let offset = 0;
+    series.forEach((s,i)=>{
+      const v = Math.max(0, +s.value || 0); if (!v) return;
+      const len = C * (v/total);
+      const seg = document.createElementNS(ns, 'circle');
+      seg.setAttribute('r',R); seg.setAttribute('cx',0); seg.setAttribute('cy',0);
+      seg.setAttribute('fill','none'); seg.setAttribute('stroke', COLORS[i%COLORS.length]);
+      seg.setAttribute('stroke-width',W); seg.setAttribute('stroke-linecap','butt');
+      seg.setAttribute('stroke-dasharray', `${len} ${C-len}`);
+      seg.setAttribute('stroke-dashoffset', -offset);
+      g.appendChild(seg);
+      offset += len;          // สำคัญ: ขยับจุดเริ่มของชิ้นถัดไป
     });
   }
 
-  document.addEventListener('DOMContentLoaded', run);
+  function legendHTML(series){
+    const total = Math.max(1, series.reduce((s,x)=>s+(x.value||0),0));
+    return series.map((s,i)=>{
+      const pct = Math.round((s.value/total)*100);
+      return `<div style="display:flex;align-items:center;gap:8px;margin:6px 0;">
+        <span style="width:10px;height:10px;border-radius:2px;background:${COLORS[i%COLORS.length]};display:inline-block"></span>
+        <span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(s.label)}</span>
+        <span style="opacity:.85">${esc(s.value)}</span>
+        <span style="opacity:.6;min-width:36px;text-align:right">(${pct}%)</span>
+      </div>`;
+    }).join('');
+  }
+
+  function renderInto(svg, legend, monthIndex, data){
+    const series = seriesForMonth(monthIndex, data);
+    drawDonut(svg, series);
+    if (legend) legend.innerHTML = legendHTML(series);
+  }
+
+  function renderAll(){
+    const data = window.chartData;
+    if (!data || !data.months || !data.months.length) {
+      console.warn('[pie] no chartData');
+      return;
+    }
+    const n = Math.min(3, data.months.length);
+    const start = data.months.length - n;
+    const idxs = Array.from({length:n},(_,k)=> start+k);
+
+    // รองรับทั้ง .pie-card[data-mi] และ #pie0..2 / #pieLegend0..2
+    const cards = Array.from(document.querySelectorAll('.pie-card[data-mi]'));
+    if (cards.length){
+      cards.slice(0,n).forEach((card,i)=>{
+        renderInto(card.querySelector('svg'), card.querySelector('.pie-legend'), idxs[i], data);
+      });
+    } else {
+      for (let i=0;i<n;i++){
+        renderInto(
+          document.getElementById('pie'+i) || document.querySelector(`svg[data-pie="${i}"]`),
+          document.getElementById('pieLegend'+i) || document.querySelector(`.pie-legend[data-pie="${i}"]`),
+          idxs[i], data
+        );
+      }
+    }
+  }
+
+  function boot(){
+    if (window.chartData && window.chartData.months && window.chartData.months.length) {
+      renderAll();
+    } else {
+      console.warn('[pie] no chartData yet; waiting…');
+      window.addEventListener('chartdata-ready', renderAll, { once:true });
+      // เผื่อกรณีไม่ยิง event — โพลทุก 120ms สูงสุด ~6s
+      let tries=0;
+      const t=setInterval(()=>{
+        if (window.chartData && window.chartData.months && window.chartData.months.length){
+          clearInterval(t); renderAll();
+        } else if (++tries>50){ clearInterval(t); }
+      },120);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', boot);
+  window.addEventListener('resize', ()=> window.chartData && renderAll());
 })();
