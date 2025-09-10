@@ -9,32 +9,31 @@ $item = (int)($_GET['item'] ?? 0);
 $type = $_GET['type'] ?? '';
 $who  = (int)($_GET['who']  ?? 0);
 
-$perPage = 5; // ← หน้า-ละ 5 แถว
+$perPage = 5;
 $page    = max(1, (int)($_GET['page'] ?? 1));
 $offset  = ($page - 1) * $perPage;
 
-/* ตัวเลือกดรอปดาวน์ */
+/* dropdowns */
 $items = $pdo->query('SELECT id, name FROM inventory_items ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
 $users = $pdo->query('SELECT id, COALESCE(display_name, username) AS name FROM admins ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
 
-/* WHERE: ใช้ REPLACE ให้ช่วงเวลาแม่นยำ แม้ stored เป็น ISO8601 (มี T) */
+/* WHERE */
 $where  = "REPLACE(sm.created_at,'T',' ') BETWEEN ? AND ?";
 $params = [$from.' 00:00:00', $to.' 23:59:59'];
-if ($item) { $where .= ' AND sm.item_id = ?';    $params[] = $item; }
-if ($type !== '') { $where .= ' AND sm.type = ?'; $params[] = $type; }
-if ($who)  { $where .= ' AND sm.created_by = ?';  $params[] = $who; }
+if ($item)       { $where .= ' AND sm.item_id = ?';    $params[] = $item; }
+if ($type !== ''){ $where .= ' AND sm.type = ?';       $params[] = $type; }
+if ($who)        { $where .= ' AND sm.created_by = ?'; $params[] = $who; }
 
-/* นับทั้งหมด */
-$sqlCnt = "SELECT COUNT(*) FROM stock_movements sm WHERE $where";
-$stmt   = $pdo->prepare($sqlCnt);
+/* count */
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM stock_movements sm WHERE $where");
 $stmt->execute($params);
-$total  = (int)$stmt->fetchColumn();
+$total = (int)$stmt->fetchColumn();
 
 $pages  = max(1, (int)ceil($total / $perPage));
 if ($page > $pages) $page = $pages;
 $offset = ($page - 1) * $perPage;
 
-/* ดึงรายการ (LEFT JOIN กันหาย) */
+/* list */
 $sql = "
 SELECT sm.*, ii.name AS item_name, ii.unit,
        a.display_name, a.username
@@ -52,24 +51,18 @@ $stmt->bindValue(count($params)+2, $offset,  PDO::PARAM_INT);
 $stmt->execute();
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-/* helper */
+/* helpers */
 function signQty($type, $qty){
   $n = rtrim(rtrim(number_format($qty, 2, '.', ''), '0'), '.');
   if ($type==='in' || $type==='return') return '+'.$n;
   if ($type==='out' || $type==='issue')  return '-'.$n;
-  return $n; // adjust
+  return $n;
 }
-function typeLabel($t){
-  return ['in'=>'รับเข้า','out'=>'ตัดออก','issue'=>'เบิกใช้','return'=>'คืนของ','adjust'=>'ปรับยอดเป็น'][$t] ?? $t;
-}
-function statusColor($t){
-  return ['in'=>'good','return'=>'good','out'=>'bad','issue'=>'bad','adjust'=>'warn'][$t] ?? '';
-}
-/* เก็บ qs */
-function qs_keep($ov = []){ $q = $_GET; unset($q['page']); $q = array_merge($q, $ov); return http_build_query($q); }
+function typeLabel($t){ return ['in'=>'รับเข้า','out'=>'ตัดออก','issue'=>'เบิกใช้','return'=>'คืนของ','adjust'=>'ปรับยอดเป็น'][$t] ?? $t; }
+function statusColor($t){ return ['in'=>'good','return'=>'good','out'=>'bad','issue'=>'bad','adjust'=>'warn'][$t] ?? ''; }
 ?>
 <div class="card">
-  <h1 style="margin:0 0 12px">รายงานความเคลื่อนไหวสต็อก</h1>
+  <h1 style="margin:0 0 12px">รายงานความเคลื่อนไหวทรัพย์สิน</h1>
 
   <form class="report-toolbar" method="get">
     <div><label>จาก</label><input type="date" name="from" value="<?= h($from) ?>"></div>
@@ -113,8 +106,7 @@ function qs_keep($ov = []){ $q = $_GET; unset($q['page']); $q = array_merge($q, 
   <div class="report-header">
     <h3 style="margin:8px 0 0">ช่วง <?= h($from) ?> – <?= h($to) ?> (ทั้งหมด <?= (int)$total ?> รายการ)</h3>
     <div class="report-actions">
-      <!-- ส่งออก PDF (หน้า print) -->
-      <a class="btn" target="_blank" href="inventory_movements_export_pdf.php?<?= qs_keep() ?>">ดาวน์โหลด PDF</a>
+      <a class="btn" target="_blank" href="inventory_movements_export_pdf.php?<?= http_build_query($_GET) ?>">ดาวน์โหลด PDF</a>
     </div>
   </div>
 
@@ -151,10 +143,15 @@ function qs_keep($ov = []){ $q = $_GET; unset($q['page']); $q = array_merge($q, 
   </div>
 
   <?php if ($pages > 1): ?>
+    <?php
+      // ใช้ rh_page_url เพื่อให้ลิงก์ชี้มาที่ไฟล์ปัจจุบันเสมอ
+      $prevUrl = rh_page_url(max(1,$page-1));
+      $nextUrl = rh_page_url(min($pages,$page+1));
+    ?>
     <div style="display:flex;justify-content:center;gap:8px;margin-top:12px">
-      <a class="btn <?= $page<=1?'disabled':'' ?>" href="?<?= qs_keep(['page'=>max(1,$page-1)]) ?>">← ก่อนหน้า</a>
+      <a class="btn <?= $page<=1?'disabled':'' ?>" href="<?= h($prevUrl) ?>">← ก่อนหน้า</a>
       <span class="badge">หน้า <?= (int)$page ?> / <?= (int)$pages ?></span>
-      <a class="btn <?= $page>=$pages?'disabled':'' ?>" href="?<?= qs_keep(['page'=>min($pages,$page+1)]) ?>">ถัดไป →</a>
+      <a class="btn <?= $page>=$pages?'disabled':'' ?>" href="<?= h($nextUrl) ?>">ถัดไป →</a>
     </div>
   <?php endif; ?>
 </div>

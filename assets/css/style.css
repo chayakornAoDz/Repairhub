@@ -1,4 +1,4 @@
-
+/* Merged on 2025-08-27T14:35:02.404273 */
 :root{
   --bg:#0f172a; /* slate-900 */
   --bg2:#111827; /* gray-900 */
@@ -15,7 +15,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 a{color:var(--accent);text-decoration:none}
 .container{max-width:1100px;margin:0 auto;padding:24px}
 .card{background:linear-gradient(180deg,#0b132a, #0b132a00);border:1px solid #1f2937;border-radius:16px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
-input,select,textarea,button{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #374151;background:#0b132a;color:var(--text)}
+input,select,textarea,button{width:100%;padding:12px 14px;margin-top:12px;border-radius:10px;border:1px solid #374151;background:#0b132a;color:var(--text)}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);border-color:transparent}
 label{display:block;margin:10px 0 6px;color:#cbd5e1}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -34,12 +34,12 @@ label{display:block;margin:10px 0 6px;color:#cbd5e1}
 .shimmer::after{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 0,rgba(255,255,255,.08) 30%,transparent 60%);transform:translateX(-100%);animation:shine 1.8s infinite}
 @keyframes shine{to{transform:translateX(100%)}}
 
-.sidebar{position:sticky;top:0;height:100vh;padding:20px;border-right:1px solid #1f2937;background:#0b1222}
-.sidebar .logo{font-size:18px;font-weight:700;letter-spacing:.5px;margin-bottom:12px}
-.menu a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;color:#cbd5e1;border:1px solid transparent}
-.menu a.active,.menu a:hover{border-color:#334155;background:#0f172a}
-.grid{display:grid;grid-template-columns:260px 1fr}
-@media(max-width:1024px){.grid{grid-template-columns:1fr} .sidebar{height:auto;position:static;margin-bottom:16px}}
+.sidebar{position:sticky;top:0;height:100vh;padding:20px;border-right:1px solid #1f2937;background:#0b1222 }
+.sidebar .logo{font-size:18px;font-weight:700;letter-spacing:.5px;margin-bottom:12px }
+.menu a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;color:#cbd5e1;border:1px solid transparent; margin-left: 5px;}
+.menu a.active,.menu a:hover{border-color:#334155;background:#0f172a;height: 44px; width: auto;}
+
+@media(max-width:1024px){ .sidebar{height:auto;position:static;margin-bottom:16px}}
 
 .stat{display:flex;align-items:center;gap:12px;padding:16px;border:1px solid #1f2937;border-radius:14px;background:#0b1222}
 .stat .num{font-size:26px;font-weight:700}
@@ -449,7 +449,7 @@ input[type="month"]::-webkit-calendar-picker-indicator {
 
 .inv-btn{
   display:inline-flex; align-items:center; justify-content:center; gap:8px;
-  border:1px solid #334155; background:#0b132a; cursor:pointer; margin-top:10px;
+  border:1px solid #334155; background:#22d3ee; cursor:pointer; margin-top:10px;
   transition:transform .12s ease, background .2s; text-decoration:none; color:#e5e7eb;
 }
 .inv-btn:hover{ transform:translateY(-1px); background:#111827; }
@@ -466,9 +466,7 @@ input[type="month"]::-webkit-calendar-picker-indicator {
 .inv-table th, .inv-table td{ padding:10px; border-bottom:1px solid var(--border); text-align:left; }
 .inv-table th{ color:#93c5fd; }
 .inv-table tbody tr:hover td{ background:#0b132a; }
-.inv-cat-row td{
-  color:#93c5fd; border-bottom:1px dashed var(--border); font-weight:600; background:#0b1222;
-}
+.inv-cat-row td{ color:#93c5fd; border-bottom:1px dashed var(--border); font-weight:600; background:#0b1222; }
 
 .inv-edit-row .inv-edit-form{ margin-top:8px; }
 .inv-edit-actions{ display:flex; justify-content:flex-end; gap:8px; margin-top:10px; }
@@ -489,23 +487,14 @@ input[type="month"]::-webkit-calendar-picker-indicator {
 .inv-recent-line{ display:flex; gap:8px; align-items:center; }
 .inv-recent-item{ flex:1 1 auto; min-width:0; }
 .inv-recent-sub{ color:#9ca3af; font-size:12px; }
-.inv-chip{
-  display:inline-block; padding:2px 8px; border:1px solid #334155; border-radius:999px; font-size:12px; background:#0b1222;
-}
+.inv-chip{ display:inline-block; padding:2px 8px; border:1px solid #334155; border-radius:999px; font-size:12px; background:#0b1222; }
 .inv-type-in, .inv-type-return{ border-color: var(--good); color: var(--good); }
-.inv-type-out, .inv-type-issue{ border-color: #f59e0b; color: #f59e0b; }
+.inv-type-out, .inv-type-issue{ border-color: #f59e0b; color:#f59e0b; }
 .inv-type-adjust{ border-color: #8b5cf6; color:#8b5cf6; }
 .inv-qty{ color:#cbd5e1; }
 
 /* label */
 .inv-card label{ display:block; margin:8px 0 6px; color:#cbd5e1; }
-
-/* ===== Sidebar submenu (Stock) ===== */
-.menu .menu-item{ position: relative; }
-.menu .has-sub > a{ display:flex; justify-content:space-between; align-items:center; }
-.menu .has-sub > a::after{
-  content:"▾"; font-size:12px; opacity:.7; margin-left:8px;
-}
 
 /* เมนูย่อย: ซ่อนปกติ */
 .menu .has-sub .sub{
@@ -539,177 +528,488 @@ input[type="month"]::-webkit-calendar-picker-indicator {
 /* กล่องแถบปุ่มหมวดหมู่ */
 .cat-bar, .cat-pills {
   display: flex;
-  gap: 8px;              /* ระยะห่างระหว่างปุ่ม */
+  gap: 8px;
   margin-top: 8px;
 }
-
-/* container ของปุ่มทั้งหมด */
 .cat-pills {
-  display: flex;
-  gap: 6px;                 /* ระยะห่างระหว่างปุ่ม */
-  margin: 12px 0;
+  display: flex; gap: 6px; margin: 12px 0;
 }
-
 .cat-pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 14px;
-  border-radius: 999px;     /* pill กลม */
-  border: 1px solid #334155;
-  background: #1e293b;
-  color: #e5e7eb;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  white-space: nowrap;      /* ไม่ตัดคำ */
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 6px 14px; border-radius: 999px;
+  border: 1px solid #334155; background: #1e293b; color: #e5e7eb; font-size: 14px;
+  cursor: pointer; transition: all 0.2s ease-in-out; white-space: nowrap;
 }
-
-.cat-pill:hover {
-  background: #0f172a;
-}
-
-.cat-pill.active {
-  background: #06b6d4;
-  border-color: #06b6d4;
-  color: #fff;
-  font-weight: 600;
-}
-
+.cat-pill:hover { background: #0f172a; }
+.cat-pill.active { background: #06b6d4; border-color: #06b6d4; color: #fff; font-weight: 600; }
 .cat-pill .count {
-  margin-left: 6px;
-  background: rgba(255, 255, 255, 0.15);
-  padding: 2px 6px;
-  border-radius: 12px;
-  font-size: 12px;
+  margin-left: 6px; background: rgba(255, 255, 255, 0.15); padding: 2px 6px; border-radius: 12px; font-size: 12px;
 }
-/* === Inventory quick fix: horizontal category pills + keep buttons inside card === */
 
-/* 1) Make pills row horizontal and scrollable on narrow screens */
+/* === Inventory quick fix: horizontal category pills + keep buttons inside card === */
 .inv-page .cat-pills{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;                 /* wrap on tablets/desktops */
-  overflow-x:auto;                /* scroll horizontally on very narrow screens */
-  padding:6px 2px;
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width: thin;
+  display:flex; gap:8px; flex-wrap:wrap; overflow-x:auto; padding:6px 2px;
+  -webkit-overflow-scrolling:touch; scrollbar-width: thin;
 }
 .inv-page .cat-pills::-webkit-scrollbar{height:8px}
 .inv-page .cat-pills::-webkit-scrollbar-thumb{background:#253047;border-radius:8px}
-
-/* 2) Neutralise the global button{width:100%} rule for our category pills */
 .inv-page .cat-pills .cat-pill{ width:auto !important; }
-
-/* 3) Pill styling */
 .inv-page .cat-pill{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:6px 14px;
-  border-radius:999px;
-  border:1px solid #334155;
-  background:#1e293b;
-  color:#e5e7eb;
-  font-size:14px;
-  line-height:1;
-  white-space:nowrap;
-  cursor:pointer;
-  transition:all .15s ease;
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:6px 14px; border-radius:999px; border:1px solid #334155;
+  background:#1e293b; color:#e5e7eb; font-size:14px; line-height:1;
+  white-space:nowrap; cursor:pointer; transition:all .15s ease;
 }
 .inv-page .cat-pill:hover{ background:#0f172a; }
-.inv-page .cat-pill.active{
-  background:#06b6d4;
-  border-color:#06b6d4;
-  color:#fff;
-  font-weight:600;
-}
-.inv-page .cat-pill .count{
-  margin-left:6px;
-  background:rgba(255,255,255,.15);
-  padding:2px 6px;
-  border-radius:12px;
-  font-size:12px;
-}
-
-/* 4) Ensure action buttons never push outside card */
+.inv-page .cat-pill.active{ background:#06b6d4; border-color:#06b6d4; color:#fff; font-weight:600; }
+.inv-page .cat-pill .count{ margin-left:6px; background:rgba(255,255,255,.15); padding:2px 6px; border-radius:12px; font-size:12px; }
 .inv-page .inv-card{ overflow:hidden; }
-.inv-page .inv-actions,
-.inv-page .inv-list-head{ flex-wrap:wrap; }   /* allow wrapping instead of overflowing */
-
-/* 5) Tables: allow inner scroll on small screens */
+.inv-page .inv-actions, .inv-page .inv-list-head{ flex-wrap:wrap; }
 .inv-page .inv-table-wrap{ overflow:auto; }
-
-/* 6) Responsive tweaks */
 @media (max-width:900px){
-  .inv-page .cat-pills{ flex-wrap:nowrap; }   /* keep in one line, scroll horizontally */
+  .inv-page .cat-pills{ flex-wrap:nowrap; }
   .inv-page .cat-pill{ font-size:13px; padding:6px 12px; }
 }
 @media (max-width:560px){
   .inv-page .cat-pill{ font-size:12px; padding:5px 10px; }
 }
-/* === Inventory quick fix: horizontal category pills + keep buttons inside card === */
 
-/* 1) Make pills row horizontal and scrollable on narrow screens */
-.inv-page .cat-pills{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;                 /* wrap on tablets/desktops */
-  overflow-x:auto;                /* scroll horizontally on very narrow screens */
-  padding:6px 2px;
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width: thin;
+
+/* ===== Sidebar Hover-to-Open (no JS) ===== */
+:root{ --sidebar-collapsed:64px; --sidebar-expanded:260px; }
+
+.grid{
+  display:grid;
+  grid-template-columns: var(--sidebar-collapsed) 1fr;
+  transition: grid-template-columns .22s ease;
 }
-.inv-page .cat-pills::-webkit-scrollbar{height:8px}
-.inv-page .cat-pills::-webkit-scrollbar-thumb{background:#253047;border-radius:8px}
+.sidebar{
+  position:sticky; top:0; height:100vh; padding:20px;
+  border-right:1px solid #1f2937; background:#0b1222;
+  width: var(--sidebar-collapsed);
+  transition: width .22s ease, padding .22s ease;
+  overflow: visible; /* allow flyouts */
+}
+/* Expand layout when hovering sidebar */
+.grid:has(.sidebar:hover){
+  grid-template-columns: var(--sidebar-expanded) 1fr;
+}
+.grid:has(.sidebar:hover) .sidebar{
+  width: var(--sidebar-expanded);
+}
+@media(max-width:1024px){
+  .grid{ grid-template-columns:1fr; }
+  .sidebar{ width:auto; height:auto; position:static; margin-bottom:16px; }
+}
 
-/* 2) Neutralise the global button{width:100%} rule for our category pills */
-.inv-page .cat-pills .cat-pill{ width:auto !important; }
 
-/* 3) Pill styling */
-.inv-page .cat-pill{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:6px 14px;
-  border-radius:999px;
-  border:1px solid #334155;
-  background:#1e293b;
-  color:#e5e7eb;
+/* ===== Submenu: hover/open ===== */
+.menu .menu-item{ position: relative; }
+.menu .has-sub > a{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+.menu .has-sub > a::after{
+  content:"▾"; font-size:12px; opacity:.7; margin-left:8px; transition: transform .15s ease;
+}
+.menu .sub{
+  display:none;
+  padding:6px 0 8px 10px;
+  margin-top:6px;
+  border-left:2px solid #243041;
+}
+.menu .sub a{
+  display:block;
+  padding:8px 10px;
+  border:1px solid transparent;
+  border-radius:10px;
+  color:#cbd5e1;
   font-size:14px;
-  line-height:1;
-  white-space:nowrap;
-  cursor:pointer;
-  transition:all .15s ease;
 }
-.inv-page .cat-pill:hover{ background:#0f172a; }
-.inv-page .cat-pill.active{
-  background:#06b6d4;
-  border-color:#06b6d4;
-  color:#fff;
-  font-weight:600;
+.menu .sub a:hover{ background:#0f172a; border-color:#334155; }
+/* Desktop hover */
+@media (hover:hover) and (pointer:fine){
+  .menu .has-sub:hover > .sub{ display:block; }
+  .menu .has-sub:hover > a::after{ transform: rotate(180deg); }
 }
-.inv-page .cat-pill .count{
-  margin-left:6px;
-  background:rgba(255,255,255,.15);
-  padding:2px 6px;
+/* Touch toggle */
+.menu .has-sub.open > .sub{ display:block; }
+
+<!-- ===== Hover-to-open Sidebar (pure CSS) ===== -->
+
+  :root{ --sidebar-collapsed:64px; --sidebar-expanded:260px; }
+
+  /* ยุบค่าเริ่ม → ขยายเมื่อ hover (ใช้ :has) */
+  .grid{
+    grid-template-columns: var(--sidebar-collapsed) 1fr !important;
+    transition: grid-template-columns .22s ease;
+  }
+  .sidebar{
+    width: var(--sidebar-collapsed) !important;
+    transition: width .22s ease, padding .22s ease;
+    overflow: visible !important;  /* กัน flyout submenu โดนตัด */
+  }
+  .grid:has(.sidebar:hover){
+    grid-template-columns: var(--sidebar-expanded) 1fr !important;
+  }
+  .grid:has(.sidebar:hover) .sidebar{
+    width: var(--sidebar-expanded) !important;
+  }
+
+  /* ตอนยุบให้ซ่อน “ข้อความ” ทั้งหมดที่ติด .collapse-hide (เหลือแต่ icon) */
+  .collapse-hide{ transition: opacity .15s ease, width .15s ease, margin .15s ease; }
+  .grid:not(:has(.sidebar:hover)) .collapse-hide{
+    opacity:0; width:0; margin:0 !important; pointer-events:none;
+  }
+
+  /* เมนูย่อย: เดสก์ท็อป hover โชว์, ตอนยุบเป็น flyout ข้าง ๆ */
+  .menu .sub{ display:none; }
+  @media (hover:hover) and (pointer:fine){
+    .menu .has-sub:hover > .sub{ display:block; }
+    .menu .has-sub > a::after{
+      content:"▾"; font-size:12px; opacity:.7; margin-left:8px; transition:transform .15s ease;
+    }
+    .menu .has-sub:hover > a::after{ transform:rotate(180deg); }
+  }
+  .grid:not(:has(.sidebar:hover)) .menu .sub{ display:none; border-left:none; }
+  .grid:not(:has(.sidebar:hover)) .menu .has-sub{ position:relative; }
+  .grid:not(:has(.sidebar:hover)) .menu .has-sub:hover > .sub{
+    display:block; position:absolute; left:calc(100% + 8px); top:0; min-width:220px;
+    padding:6px; margin:0; background:#0b1222; border:1px solid #1f2937; border-radius:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,.35); z-index:100;
+  }
+
+  /* มือถือ: hover ใช้ไม่ได้ → ขยายตลอด และอนุญาต .open เพื่อโชว์เมนูย่อยด้วยการแตะ */
+@media (max-width:1024px){
+  .grid{ grid-template-columns:1fr !important; }
+  .sidebar{ width:auto !important; overflow:visible !important; }
+  .menu .has-sub.open > .sub{ display:block; }
+}
+  /* ซ่อน caret (▾) และจัดปุ่มให้ชิดกลาง เมื่อ Sidebar ยุบ */
+.grid:not(:has(.sidebar:hover)) .menu .has-sub > a::after{
+  display:none !important;   /* ไม่แสดงลูกศรตอนยุบ */
+  content:"";
+}
+/* ตอนยุบ: ให้ลิงก์มีแค่ไอคอน → จัดกลาง */
+.grid:not(:has(.sidebar:hover)) .menu .has-sub > a,
+.grid:not(:has(.sidebar:hover)) .menu > a{
+  justify-content:center !important;
+}
+<!-- Mobile/Tablet Drawer -->
+.nav-trigger{
+    display:none;
+  }
+  @media (max-width:1024px){
+    .nav-trigger{
+      position:fixed; left:12px; top:12px; z-index:110;
+      display:inline-flex; align-items:center; justify-content:center;
+      width:38px; height:38px; border-radius:10px;
+      border:1px solid #334155; background:#0b132a; color:#e5e7eb;
+      box-shadow:0 6px 18px rgba(0,0,0,.25);
+    }
+    .nav-trigger:active{ transform:translateY(1px); }
+  }
+
+  /* ฉากดำคลุมเวลาลิ้นชักเปิด */
+  .nav-overlay{
+    display:none;
+  }
+  @media (max-width:1024px){
+    .nav-overlay{
+      position:fixed; inset:0; background:rgba(0,0,0,.4);
+      opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:90;
+      display:block;
+    }
+    body.nav-open .nav-overlay{ opacity:1; pointer-events:auto; }
+  }
+
+  /* Drawer: ใช้ sidebar เดิม แต่เปลี่ยนเป็น off-canvas บนจอ <= 1024px */
+  @media (max-width:1024px){
+    .grid{ grid-template-columns: 1fr !important; }
+    .sidebar{
+      position:fixed; top:0; left:0; bottom:0;
+      width:260px; max-width:86%;
+      transform:translateX(-100%); transition:transform .25s ease;
+      z-index:100; overflow:auto; /* ให้เมนูเลื่อนได้ */
+    }
+    body.nav-open .sidebar{ transform:translateX(0); }
+
+    /* ตอนเป็น drawer ให้ข้อความเมนู/ชื่อผู้ใช้มองเห็นปกติ */
+    .collapse-hide{ opacity:1 !important; width:auto !important; margin:initial !important; pointer-events:auto !important; }
+
+    /* เมนูย่อย: แตะเพื่อเปิด (ใช้ .open) */
+    .menu .has-sub .sub{ display:none; }
+    .menu .has-sub.open .sub{ display:block; }
+
+    /* ซ่อน caret ตอนเป็นไอคอนล้วน “ไม่ได้ใช้” แล้ว ใน drawer ให้ทิ้งได้หรือคงไว้ก็ได้ */
+    .menu .has-sub > a::after{ content:"▾"; font-size:12px; opacity:.7; margin-left:8px; }
+  }
+
+  /* Desktop ( >1024px ) ใช้โหมด hover ของคุณตามเดิม */
+  @media (min-width:1025px){
+    /* ซ่อน caret ตอน sidebar ยุบ (ไอคอนล้วน) */
+    .grid:not(:has(.sidebar:hover)) .menu .has-sub > a::after{ display:none !important; content:""; }
+    .grid:not(:has(.sidebar:hover)) .menu a{ justify-content:center !important; }
+  }
+/* ===== Mobile/Tablet Drawer - FINAL (<=1024px) ===== */
+
+/* ซ่อนปุ่มบน Desktop เสมอ */
+.nav-trigger, .nav-overlay { display:none !important; }
+
+/* Drawer เฉพาะจอเล็ก */
+@media (max-width:1024px){
+  /* ปุ่ม ☰ */
+  .nav-trigger{
+    position:fixed; left:12px; top:12px; z-index:110;
+    display:inline-flex !important; align-items:center; justify-content:center;
+    width:38px; height:38px; border-radius:10px;
+    border:1px solid #334155; background:#0b132a; color:#e5e7eb;
+    box-shadow:0 6px 18px rgba(0,0,0,.25);
+  }
+
+  /* ฉากดำคลุม */
+  .nav-overlay{
+    position:fixed; inset:0; z-index:100; display:block !important;
+    background:rgba(0,0,0,.4);
+    opacity:0; pointer-events:none; transition:opacity .2s ease;
+  }
+  body.nav-open .nav-overlay{ opacity:1; pointer-events:auto; }
+
+  /* ปิดโหมด hover/collapse เดสก์ท็อปบนมือถือ */
+  .grid{ grid-template-columns:1fr !important; }
+  .grid:has(.sidebar:hover){ grid-template-columns:1fr !important; }
+
+  /* ใช้ sidebar เดิมเป็น off-canvas drawer */
+  .sidebar{
+    position:fixed !important; top:0; left:0; bottom:0; z-index:120 !important;
+    width:260px; max-width:86%;
+    height:auto !important; padding:20px !important; overflow:auto !important;
+    transform:translateX(-100%) !important; transition:transform .25s ease;
+  }
+  body.nav-open .sidebar{ transform:translateX(0) !important; }
+
+  /* ในโหมด drawer ให้ข้อความที่ติด .collapse-hide โชว์ปกติ */
+  .collapse-hide{
+    opacity:1 !important; width:auto !important; margin:initial !important; pointer-events:auto !important;
+  }
+
+  /* เมนูย่อย: แตะเพื่อเปิด (.open) */
+  .menu .has-sub .sub{ display:none; }
+  .menu .has-sub.open .sub{ display:block; }
+}
+
+/* Desktop (>1024px): ซ่อนปุ่ม และคงพฤติกรรม hover-collapsed เดิม */
+@media (min-width:1025px){
+  .nav-trigger, .nav-overlay{ display:none !important; }
+  .grid:not(:has(.sidebar:hover)) .menu .has-sub > a::after{ display:none !important; content:""; }
+  .grid:not(:has(.sidebar:hover)) .menu > a,
+  .grid:not(:has(.sidebar:hover)) .menu .has-sub > a{ justify-content:center !important; }
+}
+
+/* เปิด/ปิด scroll ขณะ drawer เปิด */
+body.nav-open{ overflow:hidden; }
+
+/* ===== Drawer for <=1024px (FINAL) ===== */
+/* ซ่อนปุ่มบน Desktop เสมอ */
+.nav-trigger, .nav-overlay{ display:none !important; }
+
+@media (max-width:1024px){
+  .nav-trigger{
+    position:fixed; left:12px; top:12px; z-index:110;
+    display:inline-flex !important; align-items:center; justify-content:center;
+    width:38px; height:38px; border-radius:10px;
+    border:1px solid #334155; background:#0b132a; color:#e5e7eb;
+    box-shadow:0 6px 18px rgba(0,0,0,.25);
+  }
+  .nav-overlay{
+    position:fixed; inset:0; z-index:100; display:block !important;
+    background:rgba(0,0,0,.4); opacity:0; pointer-events:none; transition:opacity .2s ease;
+  }
+  body.nav-open .nav-overlay{ opacity:1; pointer-events:auto; }
+
+  /* ปิดโหมด hover บนมือถือ */
+  .grid{ grid-template-columns:1fr !important; }
+  .grid:has(.sidebar:hover){ grid-template-columns:1fr !important; }
+
+  /* ใช้ sidebar เป็น off-canvas drawer */
+  .sidebar{
+    position:fixed !important; top:0; left:0; bottom:0; z-index:120 !important;
+    width:260px; max-width:86%;
+    transform:translateX(-100%) !important; transition:transform .25s ease;
+    overflow:auto !important; height:auto !important; padding:20px !important;
+  }
+  body.nav-open .sidebar{ transform:translateX(0) !important; }
+
+  /* ให้ข้อความโชว์ปกติเมื่อเป็น drawer */
+  .collapse-hide{
+    opacity:1 !important; width:auto !important; margin:initial !important; pointer-events:auto !important;
+  }
+
+  /* เมนูย่อย: แตะเพื่อเปิด */
+  .menu .has-sub .sub{ display:none; }
+  .menu .has-sub.open .sub{ display:block; }
+}
+
+/* Desktop (>1024px): ซ่อนปุ่ม และคงโหมด hover-collapsed เดิม */
+@media (min-width:1025px){
+  .nav-trigger, .nav-overlay{ display:none !important; }
+  .grid:not(:has(.sidebar:hover)) .menu .has-sub > a::after{ display:none !important; content:""; }
+  .grid:not(:has(.sidebar:hover)) .menu > a,
+  .grid:not(:has(.sidebar:hover)) .menu .has-sub > a{ justify-content:center !important; }
+}
+
+/* ไม่ให้หน้าหลักเลื่อนเมื่อ drawer เปิด */
+body.nav-open{ overflow:hidden; }
+
+/* ===================== CCTV PAGES (scoped, non-conflicting) ===================== */
+/* ทำให้ input/select/button บนแถบควบคุมไม่กินความกว้าง 100% ตามสไตล์หลัก */
+.cctv-wrap .cctv-input,
+.cctv-wrap .cctv-select,
+.cctv-wrap .cctv-btn{
+  width:auto; display:inline-flex; align-items:center;
+}
+
+/* ส่วนหัว/แถบควบคุม */
+.cctv-wrap{ padding:20px; }
+.cctv-header{ display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:flex-end; }
+.cctv-title{ display:flex; gap:10px; align-items:center; }
+.cctv-ctrl{ display:flex; gap:8px; flex-wrap:wrap; align-items:flex-end; }
+.cctv-field{ display:flex; flex-direction:column; gap:4px; font-size:14px; color:var(--muted); }
+.cctv-input,.cctv-select,.cctv-btn{
+  background:#0b132a; color:var(--text);
+  border:1px solid #334155; border-radius:10px; padding:8px 10px;
+}
+.cctv-btn{ cursor:pointer }
+.cctv-btn.ghost{ background:transparent; border-style:dashed; }
+.cctv-btn.outline{ background:transparent; }
+
+/* กล่องตาราง */
+.cctv-table-wrap{
+  background:linear-gradient(180deg,#0b132a,#0b132a00);
+  border:1px solid #1f2937; border-radius:12px; padding:6px; overflow:auto;
+}
+
+/* ตารางภายใน “พื้นขาว” */
+.cctv-table{
+  width:100%; border-collapse:separate; border-spacing:0;
+  background:#fff; color:#0f172a; font-size:13px; min-width:860px;
+}
+.cctv-table th,.cctv-table td{
+  border:1px solid rgba(15,23,42,.22); padding:4px 6px; white-space:nowrap;
+}
+/* เฮดเดอร์ติดบน */
+.cctv-table thead th{
+  position:sticky; top:0; z-index:2;
+  background:#0b1222; color:var(--text); border-color:#1f2937;
+}
+/* คอลัมน์วันที่ติดซ้าย */
+.cctv-table th:first-child,
+.cctv-table td:first-child{
+  position:sticky; left:0; z-index:3; text-align:left;
+  background:#f8fafc; color:#0f172a; box-shadow:2px 0 0 rgba(15,23,42,.06);
+}
+
+/* กำหนดความกว้างคอลัมน์ให้เท่ากัน (โหมด equal) */
+.cctv-table.cctv-eq{ table-layout:fixed; --cctv-date:110px; --cctv-stat:74px; --cctv-cam:64px; }
+.cctv-table.cctv-eq th:first-child,
+.cctv-table.cctv-eq td:first-child{ width:var(--cctv-date); }
+.cctv-table.cctv-eq th:nth-last-child(3),
+.cctv-table.cctv-eq td:nth-last-child(3),
+.cctv-table.cctv-eq th:nth-last-child(2),
+.cctv-table.cctv-eq td:nth-last-child(2),
+.cctv-table.cctv-eq th:nth-last-child(1),
+.cctv-table.cctv-eq td:nth-last-child(1){ width:var(--cctv-stat); }
+.cctv-table.cctv-eq th:not(:first-child):not(:nth-last-child(-n+3)),
+.cctv-table.cctv-eq td:not(:first-child):not(:nth-last-child(-n+3)){ width:var(--cctv-cam); }
+
+/* เซลล์ + สีสถานะ */
+.cctv-cell{ min-width:0; height:24px; }
+.cctv-cell[data-val="/"]{ color:#16a34a; font-weight:700; }    /* / = ปกติ */
+.cctv-cell[data-val="×"]{ color:#ef4444; font-weight:700; }    /* × = ผิดปกติ */
+.cctv-ok { background:rgba(16,185,129,.14); color:#166534; }
+.cctv-bad{ background:rgba(239,68,68,.14); color:#991b1b; }
+.cctv-pct{ background:rgba(96,165,250,.16); color:#1d4ed8; }
+
+/* ฟุตโน้ต/ผู้จัดทำ */
+.cctv-note{ margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; }
+.cctv-note .cctv-input{ min-width:260px; }
+
+/* ===================== PRINT: A4 Landscape + One-page Fit ===================== */
+@media print{
+  @page{ size:A4 landscape; margin:6mm; }
+  .cctv-wrap .cctv-ctrl, .cctv-wrap .cctv-note{ display:none !important; }
+
+  .cctv-table{
+    width:100% !important; min-width:0 !important; table-layout:fixed;
+    font-size:10px;
+  }
+  .cctv-table th, .cctv-table td{
+    padding:2px 3px !important; border:.6px solid #000 !important; color:#000 !important;
+  }
+  .cctv-table thead th,
+  .cctv-table th:first-child,
+  .cctv-table td:first-child{
+    position:static !important; background:#eee !important; color:#000 !important;
+  }
+  table, tr, td, th{ page-break-inside:avoid !important; }
+}
+/* — CCTV: จัดสัญลักษณ์ให้อยู่กึ่งกลาง โดยไม่ทำลาย table layout — */
+.cctv-table th { text-align: center; }
+.cctv-table td { 
+  text-align: center; 
+  vertical-align: middle;    /* กึ่งกลางแนวตั้งแบบ table แท้ ๆ */
+}
+
+/* คอลัมน์วันที่ให้ชิดซ้ายตามเดิม */
+.cctv-table th:first-child,
+.cctv-table td:first-child { text-align: left; }
+
+/* ตัวเซลล์ของกล้อง: อย่าเปลี่ยน display */
+.cctv-cell{
+  /* ห้าม display:flex */
+  height: 24px;
+  padding: 0;
+  line-height: 24px;          /* ช่วยให้สัญลักษณ์ตัวเดียวกลางเป๊ะ */
+}
+
+/* ถ้าเคยใส่กฎเก่าไปแล้วและยังแคชติดอยู่ บังคับคืนค่าได้แบบนี้ */
+.cctv-table td.cctv-cell{ display: table-cell !important; }
+.cctv-table tbody td:hover { background: rgba(2,132,199,.06); }
+.cctv-cell { cursor: pointer; }
+
+/* === Fix: แสดงขอบตอนโฟกัสให้ทุกช่อง รวมถึงที่เป็น :invalid === */
+input:focus, select:focus, textarea:focus,
+input:focus:invalid, select:focus:invalid, textarea:focus:invalid {
+  outline: 2px solid var(--accent) !important;   /* วงสว่างสีธีม */
+  border-color: transparent !important;          /* ไม่ให้ขอบเดิมมาซ้อน */
+  box-shadow: 0 0 0 3px rgba(34,211,238,.25) !important; /* glow นุ่ม ๆ */
+}
+
+/* (ทางเลือก) สไตล์เมื่อ hover เพื่อ feedback เล็ก ๆ */
+input:hover, select:hover, textarea:hover {
+  border-color: #4b5563;
+}
+
+<style>
+/* Alert base */
+.alert{
+  padding:12px 16px;
   border-radius:12px;
-  font-size:12px;
+  font-size:15px;
+  font-weight:600;
+  border:1px solid transparent;
 }
 
-/* 4) Ensure action buttons never push outside card */
-.inv-page .inv-card{ overflow:hidden; }
-.inv-page .inv-actions,
-.inv-page .inv-list-head{ flex-wrap:wrap; }   /* allow wrapping instead of overflowing */
-
-/* 5) Tables: allow inner scroll on small screens */
-.inv-page .inv-table-wrap{ overflow:auto; }
-
-/* 6) Responsive tweaks */
-@media (max-width:900px){
-  .inv-page .cat-pills{ flex-wrap:nowrap; }   /* keep in one line, scroll horizontally */
-  .inv-page .cat-pill{ font-size:13px; padding:6px 12px; }
+/* สำเร็จ */
+.alert-success{
+  color:#10b981;                         /* เขียว */
+  background:rgba(16,185,129,.15);
+  border-color:#1e5f49;
 }
-@media (max-width:560px){
-  .inv-page .cat-pill{ font-size:12px; padding:5px 10px; }
+
+/* ล้มเหลว */
+.alert-error{
+  color:#ef4444;                         /* แดง */
+  background:rgba(239,68,68,.15);
+  border-color:#5f1e27;
 }
+</style>

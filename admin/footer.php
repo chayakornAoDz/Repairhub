@@ -11,5 +11,9 @@
       }
     });
   });
+  document.querySelectorAll('a[href^="?page="]').forEach(a=>{
+    const file = location.pathname.split('/').pop() || 'index.php';
+    a.href = file + a.getAttribute('href');
+  });
 </script>
 </body></html>
